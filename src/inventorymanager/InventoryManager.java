@@ -23,37 +23,18 @@ import javafx.stage.Stage;
  * @author Jordan
  */
 public class InventoryManager extends Application {
-    Stage window;
-    Scene scene1, scene2;
+    //SETTINGS
+    private final String title = "Inventory Manager";
+    
+    //COMPONENTS
+    private Stage window;
     
     @Override
     public void start(Stage primaryStage) {
         window = primaryStage;
+        window.setTitle(title);
         SceneController sceneController = new SceneController(window);
-                
-        Label label1 = new Label("First scene");
-        Button btn1 = new Button("Go to Scene 2");
-        btn1.setOnAction(e -> SceneController.activate("Scene 2"));
-        
-        VBox layout1 = new VBox(20);
-        layout1.getChildren().addAll(label1, btn1);
-        scene1 = new Scene(layout1, 200, 200);
-        
-        Label lbl2 = new Label("Second scene");
-        Button btn2 = new Button("Go to scene 1");
-        btn2.setOnAction(e -> SceneController.activate("Scene 1"));
-        
-        StackPane layout2 = new StackPane();
-        layout2.getChildren().addAll(lbl2, btn2);
-        scene2 = new Scene(layout2, 600, 300);
-        
-        MainWindow windowMain = new MainWindow();
-        
-        sceneController.addScene("Scene 1", scene1);
-        sceneController.addScene("Scene 2", scene2);
-        sceneController.addScene("Main", new Scene(windowMain, 300, 300));
-        
-        SceneController.activate("Main");
+        SceneRegister register = new SceneRegister(sceneController);
         
         window.show();
     }
