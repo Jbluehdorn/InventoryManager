@@ -1,7 +1,13 @@
 package inventorymanager.Views.Partials;
 
+import inventorymanager.Controllers.PartsController;
+import inventorymanager.Controllers.SceneController;
+import inventorymanager.Models.Parts.Part;
 import inventorymanager.Settings;
 import inventorymanager.Util.StringUtility;
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -20,6 +27,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 /**
  * DATATABLE COMPONENT FOR PARTS AND PRODUCTS
@@ -78,9 +86,21 @@ public class DataTable extends BorderPane {
         
         this.table = new TableView();
         TableColumn colID = new TableColumn(StringUtility.capitalizeFirst(this.type) + " ID");
+        colID.setCellValueFactory(
+                new PropertyValueFactory<>(this.type.equals("parts") ? "partID" : "productID")
+        );
         TableColumn colName = new TableColumn(StringUtility.capitalizeFirst(this.type) + " Name");
+        colName.setCellValueFactory(
+                new PropertyValueFactory<>("name")
+        );
         TableColumn colInv = new TableColumn("Inventory Level");
+        colInv.setCellValueFactory(
+                new PropertyValueFactory<>("instock")
+        );
         TableColumn colPrice = new TableColumn("Price per Unit");
+        colPrice.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+        );
         this.table.getColumns().addAll(colID, colName, colInv, colPrice);
         this.table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         
@@ -90,6 +110,14 @@ public class DataTable extends BorderPane {
         
         this.btnAdd = new Button("Add");
         this.btnAdd.setPadding(new Insets(Settings.btnPadTop, Settings.btnPadRight, Settings.btnPadBot, Settings.btnPadLeft));
+        this.btnAdd.setOnAction(e -> {
+            if(this.type.equals("parts")) {
+                Stage addPartStage = new Stage();
+                addPartStage.setTitle("Add Part");
+                addPartStage.setScene(SceneController.getScene("addPart"));
+                addPartStage.show();
+            }
+        });
         
         this.btnMod = new Button("Modify");
         this.btnMod.setPadding(new Insets(Settings.btnPadTop, Settings.btnPadRight, Settings.btnPadBot, Settings.btnPadLeft));
@@ -115,10 +143,23 @@ public class DataTable extends BorderPane {
      * POPULATES THE CENTER SECTION
      */
     private void populateCenter() {
+        this.populateTable();
         this.boxCrudBtns.getChildren().addAll(this.btnAdd, this.btnMod, this.btnDel);
         
         this.boxCenter.getChildren().addAll(this.table, this.boxCrudBtns);
         
         this.setCenter(this.boxCenter);
+    }
+    
+    /**
+     * POPULATES THE TABLE WITH THE CORRECT DATA
+     */
+    private void populateTable() {
+        if(this.type.equals("parts")) {
+            ObservableList<Part> parts = FXCollections.observableArrayList(PartsController.get());
+            System.out.println(PartsController.get().size());
+            this.table.setItems(parts);
+            System.out.println(this.table.getItems().size());
+        }
     }
 }

@@ -3,6 +3,15 @@ package inventorymanager.Models.Parts;
 public class Outsourced extends Part {
     private String companyName;
 
+    public Outsourced() {
+        super();
+    }
+    
+    public Outsourced(int partID, String name, double price, int inStock, int min, int max, String companyName) {
+        super(partID, name, price, inStock, min, max);
+        this.companyName = companyName;
+    }
+    
     //Getter and Setter for companyName
     public void setCompanyName(String commpanyName) {
         this.companyName = companyName;

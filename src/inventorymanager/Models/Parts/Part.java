@@ -7,6 +7,17 @@ public abstract class Part {
     private int inStock;
     private int min;
     private int max;
+    
+    public Part() {};
+    
+    public Part(int partID, String name, double price, int inStock, int min, int max) {
+        this.partID = partID;
+        this.name = name;
+        this.price = price;
+        this.inStock = inStock;
+        this.min = min;
+        this.max = max;
+    }
 
     //Getter and Setter for name
     public void setName(String name) {

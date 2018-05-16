@@ -3,6 +3,7 @@ package inventorymanager.Views;
 import inventorymanager.Controllers.SceneController;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 /**
@@ -14,9 +15,13 @@ public class AddPartWindow extends VBox {
     public AddPartWindow() {
         this.setPadding(new Insets(padTop, padRight, padBot, padLeft));
         
-        Button btn = new Button("Thing");
-        btn.setOnAction(e -> SceneController.activate("main"));
+        TextField txtTest = new TextField();
         
-        this.getChildren().add(btn);
+        Button btn = new Button("Thing");
+        btn.setOnAction(e -> {
+            
+        });
+        
+        this.getChildren().addAll(btn, txtTest);
     }
 }
