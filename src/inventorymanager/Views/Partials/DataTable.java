@@ -1,5 +1,6 @@
 package inventorymanager.Views.Partials;
 
+import inventorymanager.Settings;
 import inventorymanager.Util.StringUtility;
 import javafx.scene.paint.Color;
 import javafx.geometry.Insets;
@@ -18,11 +19,7 @@ import javafx.scene.text.Font;
  */
 public class DataTable extends BorderPane {
     //SETTINGS
-    private final int padTop = 10, padRight = 10, padBot = 10, padLeft = 10;
     private String type;
-    private String font = "Arial";
-    private int headerTextSize = 20;
-    private int bodyTextSize = 12;
     
     //COMPONENTS
     private HBox boxTop;
@@ -36,7 +33,7 @@ public class DataTable extends BorderPane {
         this.type = type.toLowerCase();
         
         //Create pane settings
-        this.setPadding(new Insets(padTop, padRight, padBot, padLeft));
+        this.setPadding(new Insets(Settings.panePadTop, Settings.panePadRight, Settings.panePadBot, Settings.panePadLeft));
         this.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderWidths.DEFAULT)));
         
         //Create and place components
@@ -49,7 +46,7 @@ public class DataTable extends BorderPane {
      */
     private void initializeComponents() {
         this.lblPrimary = new Label(StringUtility.capitalizeFirst(this.type));
-        this.lblPrimary.setFont(Font.font(this.font, this.headerTextSize));
+        this.lblPrimary.setFont(Font.font(Settings.font, Settings.subheaderTextSize));
         
         this.boxTop = new HBox();
     }

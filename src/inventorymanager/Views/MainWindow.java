@@ -1,61 +1,68 @@
 package inventorymanager.Views;
 
 import inventorymanager.Views.Partials.DataTable;
+import inventorymanager.Settings;
+import javafx.application.Platform;
 import javafx.scene.text.Font;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
 public class MainWindow extends BorderPane {
     //SETTINGS
-    private final int padTop = 10, padRight = 10, padBot = 10, padLeft = 10;
     private final int middleVGap = 8, middleHGap = 10;
-    private final String font = "Arial";
-    private final int headerTextSize = 24;
-    private final int bodyTextSize = 12;
     
     //COMPONENTS
-    private Label topLabel;
-    private HBox topBox;
-    private GridPane middlePane;
+    private Label lblTop;
+    private HBox boxTop, boxBottom;
+    private GridPane paneMiddle;
     private DataTable partsTable;
     private DataTable productsTable;
+    private Button btnExit;
     
     public MainWindow() {
-        this.setPadding(new Insets(padTop, padRight, padBot, padLeft));
+        this.setPadding(new Insets(Settings.panePadTop, Settings.panePadRight, Settings.panePadBot, Settings.panePadLeft));
         this.initializeComponents();
         this.populateTop();
         this.populateCenter();
+        this.populateBottom();
     }   
     
     /**
      * INITIALIZE ALL COMPONENTS
      */
     private void initializeComponents() {
-        this.topLabel = new Label("Inventory Management System");
-        this.topLabel.setFont(Font.font(font, headerTextSize));
+        this.lblTop = new Label("Inventory Management System");
+        this.lblTop.setFont(Font.font(Settings.font, Settings.headerTextSize));
                 
-        this.topBox = new HBox();
+        this.boxTop = new HBox();
+        this.boxBottom = new HBox();
         
-        this.middlePane = new GridPane();
-        this.middlePane.setPadding(new Insets(padTop, padRight, padBot, padLeft));
-        this.middlePane.setVgap(middleVGap);
-        this.middlePane.setHgap(middleHGap);
+        this.paneMiddle = new GridPane();
+        this.paneMiddle.setPadding(new Insets(Settings.panePadTop, 0, Settings.panePadBot, 0));
+        this.paneMiddle.setVgap(middleVGap);
+        this.paneMiddle.setHgap(middleHGap);
         
         this.partsTable = new DataTable("parts");
         
         this.productsTable = new DataTable("products");
+        
+        this.btnExit = new Button("Exit");
+        this.btnExit.setPadding(new Insets(Settings.btnPadTop, Settings.btnPadRight, Settings.btnPadBot, Settings.btnPadLeft));
+        this.btnExit.setOnAction(e -> Platform.exit());
     }
     
     /**
      * POPULATES THE TOP SECTION
      */
     private void populateTop() {
-        this.topBox.getChildren().add(topLabel);
-        this.setTop(this.topBox);
+        this.boxTop.getChildren().add(lblTop);
+        this.setTop(this.boxTop);
     }
     
     /**
@@ -70,9 +77,20 @@ public class MainWindow extends BorderPane {
         ColumnConstraints col2 = new ColumnConstraints();
         col2.setPercentWidth(50);
         
-        this.middlePane.getColumnConstraints().addAll(col1, col2);
-        this.middlePane.getChildren().addAll(this.partsTable, this.productsTable);
+        this.paneMiddle.getColumnConstraints().addAll(col1, col2);
+        this.paneMiddle.getChildren().addAll(this.partsTable, this.productsTable);
         
-        this.setCenter(this.middlePane);
+        this.setCenter(this.paneMiddle);
+    }
+    
+    /**
+     * POPULATES THE BOTTOM SECTION
+     */
+    private void populateBottom() {
+        this.boxBottom.setAlignment(Pos.BASELINE_RIGHT);
+        
+        this.boxBottom.getChildren().addAll(this.btnExit);
+        
+        this.setBottom(this.boxBottom);
     }
 }
