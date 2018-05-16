@@ -6,16 +6,7 @@
 package inventorymanager;
 
 import inventorymanager.Controllers.SceneController;
-import inventorymanager.Views.MainWindow;
-import java.util.ArrayList;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -33,6 +24,7 @@ public class InventoryManager extends Application {
     public void start(Stage primaryStage) {
         window = primaryStage;
         window.setTitle(title);
+        window.setResizable(false);
         SceneController sceneController = new SceneController(window);
         SceneRegister register = new SceneRegister(sceneController);
         
