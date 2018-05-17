@@ -1,8 +1,10 @@
 package inventorymanager.Controllers;
 
+import inventorymanager.Interfaces.IObservable;
+import inventorymanager.Interfaces.IObserver;
 import inventorymanager.Models.Parts.Part;
+import inventorymanager.Settings;
 import java.util.ArrayList;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -10,13 +12,17 @@ import javafx.stage.Stage;
  */
 public class PartsController {
     private static ArrayList<Part> parts = new ArrayList<Part>();
+    private static ArrayList<IObserver> observers = new ArrayList<IObserver>();
     
     public static void add(Part part) {
         parts.add(part);
+        notifyObservers();
     }
     
     public static boolean remove(Part part) {
-        return parts.remove(part);
+        boolean success = parts.remove(part);
+        notifyObservers();
+        return success;
     }
     
     public static ArrayList<Part> get() {
@@ -40,11 +46,24 @@ public class PartsController {
         }
     }
     
-    public static void addForm(Pane parent) {
+    public static void addForm() {
         Stage stage = new Stage();
         stage.setTitle("Add Part");
-        if(parent != null) {
-            
+        stage.setScene(SceneController.getScene("addPart", Settings.windowHeight, Settings.windowWidth));
+        stage.show();
+    }
+    
+    public static void attach(IObserver observer) {
+        observers.add(observer);
+    }
+    
+    public static void detatch(IObserver observer) {
+        observers.remove(observer);
+    }
+    
+    public static void notifyObservers() {
+        for(IObserver observer : observers) {
+            observer.update();
         }
     }
 }

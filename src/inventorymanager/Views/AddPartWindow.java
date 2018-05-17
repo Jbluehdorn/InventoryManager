@@ -1,6 +1,8 @@
 package inventorymanager.Views;
 
+import inventorymanager.Controllers.PartsController;
 import inventorymanager.Controllers.SceneController;
+import inventorymanager.Models.Parts.Inhouse;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -15,20 +17,13 @@ public class AddPartWindow extends VBox {
     private Pane parent;
     
     public AddPartWindow() {
-        this(null);
-    }
-    
-    public AddPartWindow(Pane parent) {
-        if(parent != null)
-            this.parent = parent;
-        
         this.setPadding(new Insets(padTop, padRight, padBot, padLeft));
         
         TextField txtTest = new TextField();
         
         Button btn = new Button("Thing");
         btn.setOnAction(e -> {
-            
+            PartsController.add(new Inhouse(1232, "Car", 200.00, 2, 1, 4, 7321));
         });
         
         this.getChildren().addAll(btn, txtTest);

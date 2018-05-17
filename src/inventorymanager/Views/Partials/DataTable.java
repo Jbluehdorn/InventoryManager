@@ -2,6 +2,7 @@ package inventorymanager.Views.Partials;
 
 import inventorymanager.Controllers.PartsController;
 import inventorymanager.Controllers.SceneController;
+import inventorymanager.Interfaces.IObserver;
 import inventorymanager.Models.Parts.Inhouse;
 import inventorymanager.Models.Parts.Part;
 import inventorymanager.Settings;
@@ -33,7 +34,7 @@ import javafx.stage.Stage;
 /**
  * DATATABLE COMPONENT FOR PARTS AND PRODUCTS
  */
-public class DataTable extends BorderPane {
+public class DataTable extends BorderPane implements IObserver {
     //SETTINGS
     private String type;
     
@@ -56,6 +57,13 @@ public class DataTable extends BorderPane {
         //Create pane settings
         this.setPadding(new Insets(Settings.panePadTop, Settings.panePadRight, Settings.panePadBot, Settings.panePadLeft));
         this.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderWidths.DEFAULT)));
+        
+        //Subscribe to appropriate changes
+        if(this.type.equals("parts")) {
+            PartsController.attach(this);
+        } else {
+            //TODO: Attach to ProductsController
+        }
         
         //Create and place components
         this.initializeComponents();
@@ -113,10 +121,7 @@ public class DataTable extends BorderPane {
         this.btnAdd.setPadding(new Insets(Settings.btnPadTop, Settings.btnPadRight, Settings.btnPadBot, Settings.btnPadLeft));
         this.btnAdd.setOnAction(e -> {
             if(this.type.equals("parts")) {
-                Stage addPartStage = new Stage();
-                addPartStage.setTitle("Add Part");
-                addPartStage.setScene(SceneController.getScene("addPart", Settings.windowHeight, Settings.windowWidth));
-                addPartStage.show();
+                PartsController.addForm();
             }
         });
         
@@ -160,5 +165,10 @@ public class DataTable extends BorderPane {
             ObservableList<Part> parts = FXCollections.observableArrayList(PartsController.get());
             this.table.setItems(parts);
         }
+    }
+
+    @Override
+    public void update() {
+        this.populateTable();
     }
 }
