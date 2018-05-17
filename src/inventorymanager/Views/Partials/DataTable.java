@@ -1,13 +1,10 @@
 package inventorymanager.Views.Partials;
 
 import inventorymanager.Controllers.PartsController;
-import inventorymanager.Controllers.SceneController;
 import inventorymanager.Interfaces.IObserver;
-import inventorymanager.Models.Parts.Inhouse;
 import inventorymanager.Models.Parts.Part;
 import inventorymanager.Settings;
 import inventorymanager.Util.StringUtility;
-import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
@@ -29,7 +26,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 /**
  * DATATABLE COMPONENT FOR PARTS AND PRODUCTS
@@ -55,8 +51,18 @@ public class DataTable extends BorderPane implements IObserver {
         this.type = type.toLowerCase();
         
         //Create pane settings
-        this.setPadding(new Insets(Settings.panePadTop, Settings.panePadRight, Settings.panePadBot, Settings.panePadLeft));
-        this.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderWidths.DEFAULT)));
+        this.setPadding(new Insets(
+                Settings.panePadTop, 
+                Settings.panePadRight, 
+                Settings.panePadBot,
+                Settings.panePadLeft
+        ));
+        this.setBorder(new Border(new BorderStroke(
+                Color.GRAY, 
+                BorderStrokeStyle.SOLID, 
+                new CornerRadii(5), 
+                BorderWidths.DEFAULT
+        )));
         
         //Subscribe to appropriate changes
         if(this.type.equals("parts")) {
@@ -91,7 +97,12 @@ public class DataTable extends BorderPane implements IObserver {
         
         this.boxCenter = new VBox();
         this.boxCenter.setSpacing(5);
-        this.boxCenter.setPadding(new Insets(Settings.panePadTop, 0, Settings.panePadBot, 0));
+        this.boxCenter.setPadding(new Insets(
+                Settings.panePadTop, 
+                0, 
+                Settings.panePadBot, 
+                0
+        ));
         
         this.table = new TableView();
         TableColumn colID = new TableColumn(StringUtility.capitalizeFirst(this.type) + " ID");
@@ -118,7 +129,12 @@ public class DataTable extends BorderPane implements IObserver {
         this.boxCrudBtns.setAlignment(Pos.BASELINE_RIGHT);
         
         this.btnAdd = new Button("Add");
-        this.btnAdd.setPadding(new Insets(Settings.btnPadTop, Settings.btnPadRight, Settings.btnPadBot, Settings.btnPadLeft));
+        this.btnAdd.setPadding(new Insets(
+                Settings.btnPadTop, 
+                Settings.btnPadRight, 
+                Settings.btnPadBot, 
+                Settings.btnPadLeft
+        ));
         this.btnAdd.setOnAction(e -> {
             if(this.type.equals("parts")) {
                 PartsController.addForm();
@@ -126,10 +142,20 @@ public class DataTable extends BorderPane implements IObserver {
         });
         
         this.btnMod = new Button("Modify");
-        this.btnMod.setPadding(new Insets(Settings.btnPadTop, Settings.btnPadRight, Settings.btnPadBot, Settings.btnPadLeft));
+        this.btnMod.setPadding(new Insets(
+                Settings.btnPadTop, 
+                Settings.btnPadRight, 
+                Settings.btnPadBot, 
+                Settings.btnPadLeft
+        ));
         
         this.btnDel = new Button("Delete");
-        this.btnDel.setPadding(new Insets(Settings.btnPadTop, Settings.btnPadRight, Settings.btnPadBot, Settings.btnPadLeft));
+        this.btnDel.setPadding(new Insets(
+                Settings.btnPadTop, 
+                Settings.btnPadRight, 
+                Settings.btnPadBot, 
+                Settings.btnPadLeft
+        ));
     }
     
     /**

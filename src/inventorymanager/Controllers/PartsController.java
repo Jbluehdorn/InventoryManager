@@ -1,6 +1,5 @@
 package inventorymanager.Controllers;
 
-import inventorymanager.Interfaces.IObservable;
 import inventorymanager.Interfaces.IObserver;
 import inventorymanager.Models.Parts.Part;
 import inventorymanager.Settings;
@@ -46,13 +45,19 @@ public class PartsController {
         }
     }
     
+    /**
+     * FORMS
+     */
     public static void addForm() {
         Stage stage = new Stage();
         stage.setTitle("Add Part");
-        stage.setScene(SceneController.getScene("addPart", Settings.windowHeight, Settings.windowWidth));
+        stage.setScene(SceneController.getScene("addPart", Settings.windowHeight, Settings.skinnyWindowWidth));
         stage.show();
     }
     
+    /**
+     * OBSERVABLE METHODS
+     */
     public static void attach(IObserver observer) {
         observers.add(observer);
     }
