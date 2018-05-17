@@ -4,6 +4,7 @@ import inventorymanager.Controllers.SceneController;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -11,8 +12,16 @@ import javafx.scene.layout.VBox;
  */
 public class AddPartWindow extends VBox {
     private final int padTop = 10, padRight = 10, padBot = 10, padLeft = 10;
+    private Pane parent;
     
     public AddPartWindow() {
+        this(null);
+    }
+    
+    public AddPartWindow(Pane parent) {
+        if(parent != null)
+            this.parent = parent;
+        
         this.setPadding(new Insets(padTop, padRight, padBot, padLeft));
         
         TextField txtTest = new TextField();

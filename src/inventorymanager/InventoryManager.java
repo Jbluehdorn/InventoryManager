@@ -33,7 +33,7 @@ public class InventoryManager extends Application {
 
         
         SceneRegister register = new SceneRegister();
-        window.setScene(SceneController.getScene("main"));
+        window.setScene(SceneController.getScene("main", Settings.windowHeight, Settings.windowWidth * 2));
         
         
         window.show();

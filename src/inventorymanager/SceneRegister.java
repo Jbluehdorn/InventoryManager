@@ -16,7 +16,7 @@ public class SceneRegister {
         MainWindow mainWindow = new MainWindow();
         AddPartWindow addPartWindow = new AddPartWindow();
         
-        SceneController.addScene("main", new Scene(mainWindow, Settings.windowWidth*2, Settings.windowHeight));
-        SceneController.addScene("addPart", new Scene(addPartWindow, Settings.windowWidth, Settings.windowHeight));
+        SceneController.addScene("main", mainWindow);
+        SceneController.addScene("addPart", addPartWindow);
     }
 }

@@ -2,6 +2,7 @@ package inventorymanager.Views.Partials;
 
 import inventorymanager.Controllers.PartsController;
 import inventorymanager.Controllers.SceneController;
+import inventorymanager.Models.Parts.Inhouse;
 import inventorymanager.Models.Parts.Part;
 import inventorymanager.Settings;
 import inventorymanager.Util.StringUtility;
@@ -114,7 +115,7 @@ public class DataTable extends BorderPane {
             if(this.type.equals("parts")) {
                 Stage addPartStage = new Stage();
                 addPartStage.setTitle("Add Part");
-                addPartStage.setScene(SceneController.getScene("addPart"));
+                addPartStage.setScene(SceneController.getScene("addPart", Settings.windowHeight, Settings.windowWidth));
                 addPartStage.show();
             }
         });
@@ -157,9 +158,7 @@ public class DataTable extends BorderPane {
     private void populateTable() {
         if(this.type.equals("parts")) {
             ObservableList<Part> parts = FXCollections.observableArrayList(PartsController.get());
-            System.out.println(PartsController.get().size());
             this.table.setItems(parts);
-            System.out.println(this.table.getItems().size());
         }
     }
 }

@@ -2,6 +2,8 @@ package inventorymanager.Controllers;
 
 import inventorymanager.Models.Parts.Part;
 import java.util.ArrayList;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  * CONTROLLER FOR inventorymanager.Models.Parts.Part
@@ -35,6 +37,14 @@ public class PartsController {
             return parts.get(partIndex);
         } else {
             throw new IndexOutOfBoundsException("PART NOT FOUND");
+        }
+    }
+    
+    public static void addForm(Pane parent) {
+        Stage stage = new Stage();
+        stage.setTitle("Add Part");
+        if(parent != null) {
+            
         }
     }
 }
