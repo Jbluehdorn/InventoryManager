@@ -88,6 +88,12 @@ public class DataTable extends BorderPane implements IObserver {
         this.boxSearch.setAlignment(Pos.BASELINE_RIGHT);
         
         this.btnSearch = new Button("Search");
+        this.btnSearch.setPadding(new Insets(
+                Settings.btnPadTop, 
+                Settings.btnPadRight, 
+                Settings.btnPadBot, 
+                Settings.btnPadLeft
+        ));
         
         this.txtSearch = new TextField();
         this.txtSearch.setPromptText("Search...");

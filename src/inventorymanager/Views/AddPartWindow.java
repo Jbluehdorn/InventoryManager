@@ -1,12 +1,19 @@
 package inventorymanager.Views;
 
+import inventorymanager.Controllers.InventoryController;
+import inventorymanager.Models.Parts.Inhouse;
+import inventorymanager.Models.Parts.Outsourced;
+import inventorymanager.Models.Parts.Part;
 import inventorymanager.Settings;
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -40,7 +47,7 @@ public class AddPartWindow extends VBox {
             lblPrice,
             lblMax,
             lblMin,
-            lblComp;
+            lblAdditional;
     private TextField
             txtID,
             txtName,
@@ -48,7 +55,7 @@ public class AddPartWindow extends VBox {
             txtPrice,
             txtMax,
             txtMin,
-            txtComp;
+            txtAdditional;
     private Button btnSave, btnCancel;
     private ArrayList<Pane> rows;
     
@@ -94,12 +101,13 @@ public class AddPartWindow extends VBox {
         this.lblMin = new Label("Min");
         this.lblMin.setFont(Font.font(Settings.font, Settings.bodyTextSize));
         
-        this.lblComp = new Label("Company Name");
-        this.lblComp.setFont(Font.font(Settings.font, Settings.bodyTextSize));
+        this.lblAdditional = new Label("Machine ID");
+        this.lblAdditional.setFont(Font.font(Settings.font, Settings.bodyTextSize));
         
         //Textfields
         this.txtID = new TextField();
-        this.txtID.setPromptText("ID");
+        this.txtID.setPromptText("Auto Gen - Disabled");
+        this.txtID.setDisable(true);
         
         this.txtName = new TextField();
         this.txtName.setPromptText("Part Name");
@@ -116,17 +124,25 @@ public class AddPartWindow extends VBox {
         this.txtMin = new TextField();
         this.txtMin.setPromptText("Min");
         
-        this.txtComp = new TextField();
-        this.txtComp.setPromptText("Comp Nm");
+        this.txtAdditional = new TextField();
+        this.txtAdditional.setPromptText("Mach ID");
         
         //Radio buttons
         this.radioGroup = new ToggleGroup();
+        this.radioGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() { 
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+                setAdditionalField();
+            }
+        });
         
         this.rbInhouse = new RadioButton("In-House");
         this.rbInhouse.setToggleGroup(this.radioGroup);
+        this.rbInhouse.setUserData("inhouse");
         this.rbInhouse.setSelected(true);
         
         this.rbOutsourced = new RadioButton("Outsourced");
+        this.rbOutsourced.setUserData("outsourced");
         this.rbOutsourced.setToggleGroup(this.radioGroup);
         
         //Buttons
@@ -136,6 +152,7 @@ public class AddPartWindow extends VBox {
                 Settings.btnPadRight, 
                 Settings.btnPadBot, 
                 Settings.btnPadLeft));
+        this.btnSave.setOnAction(e -> this.savePart());
         
         this.btnCancel = new Button("Cancel");
         this.btnCancel.setPadding(new Insets(
@@ -153,7 +170,7 @@ public class AddPartWindow extends VBox {
         this.addTextFieldRow(this.lblPrice, this.txtPrice);
         this.addTextFieldRow(this.lblMax, this.txtMax);
         this.addTextFieldRow(this.lblMin, this.txtMin);
-        this.addTextFieldRow(this.lblComp, this.txtComp);
+        this.addTextFieldRow(this.lblAdditional, this.txtAdditional);
         this.addButtonsRow(Alignment.RIGHT, this.btnSave, this.btnCancel);
     }
     
@@ -168,6 +185,38 @@ public class AddPartWindow extends VBox {
         for(Pane pane : rows) {
             this.getChildren().add(pane);
         }
+    }
+    
+    /**
+     * SAVES THE NEW PART AND CLOSES THE WINDOW
+     */
+    private void savePart() {
+        String type = this.radioGroup.getSelectedToggle().getUserData().toString();
+        Part part;
+        
+        if(type.equals("inhouse")) {
+            part = new Inhouse(
+                    this.txtName.getText(),
+                    Double.parseDouble(this.txtPrice.getText()),
+                    Integer.parseInt(this.txtInv.getText()),
+                    Integer.parseInt(this.txtMax.getText()),
+                    Integer.parseInt(this.txtMin.getText()),
+                    Integer.parseInt(this.txtAdditional.getText())
+            );
+        } else {
+            part = new Outsourced(
+                    this.txtName.getText(),
+                    Double.parseDouble(this.txtPrice.getText()),
+                    Integer.parseInt(this.txtInv.getText()),
+                    Integer.parseInt(this.txtMax.getText()),
+                    Integer.parseInt(this.txtMin.getText()),
+                    this.txtAdditional.getText()
+            );
+        }
+        
+        InventoryController.addPart(part);
+        
+        this.closeWindow();
     }
     
     /**
@@ -241,5 +290,20 @@ public class AddPartWindow extends VBox {
         temp.getChildren().add(container);
         
         this.rows.add(temp);
+    }
+    
+    /**
+     * UPDATES THE ADDITIONAL INFO FIELD ACCORDING TO TYPE
+     */
+    private void setAdditionalField() {
+        String type = this.radioGroup.getSelectedToggle().getUserData().toString();
+        
+        if(type.equals("inhouse")) {
+            this.lblAdditional.setText("Machine ID");
+            this.txtAdditional.setPromptText("Mach ID");
+        } else {
+            this.lblAdditional.setText("Company Name");
+            this.txtAdditional.setPromptText("Comp Nm");
+        }
     }
 }
