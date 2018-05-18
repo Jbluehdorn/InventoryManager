@@ -168,9 +168,6 @@ public class AddPartWindow extends VBox {
         for(Pane pane : rows) {
             this.getChildren().add(pane);
         }
-        
-        //Buttons Row
-        
     }
     
     /**

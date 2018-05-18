@@ -5,7 +5,7 @@ import inventorymanager.Models.Parts.*;
 
 public class Product {
     private ArrayList<Part> associatedParts;
-    private int productID;
+    private UUID productID;
     private String name;
     private double price;
     private int inStock;
@@ -28,7 +28,7 @@ public class Product {
      * PARAMS: partID - the partID of the part to be removed
      * RETURNS: removal success
      */
-    public boolean removeAssociatedPart(int partID) {
+    public boolean removeAssociatedPart(UUID partID) {
         int partIndex = -1;
 
         for(int i = 0; i < this.associatedParts.size(); i++) {
@@ -52,7 +52,7 @@ public class Product {
      * PARAMS: partID - the partID of the part to be found
      * RETURNS: InventoryManager.Models.Parts.Part
      */
-    public Part lookupAssociatedPart(int partID) {
+    public Part lookupAssociatedPart(UUID partID) {
         int partIndex = -1;
 
         for(int i = 0; i < this.associatedParts.size(); i++) {
@@ -115,11 +115,11 @@ public class Product {
     }
     
     //Getter and Setter for productID
-    public void setProductID(int productID) {
+    public void setProductID(UUID productID) {
         this.productID = productID;
     }
 
-    public int getProductID() {
+    public UUID getProductID() {
         return this.productID;
     }
 }

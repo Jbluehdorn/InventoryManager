@@ -1,5 +1,6 @@
 package inventorymanager.Views.Partials;
 
+import inventorymanager.Controllers.InventoryController;
 import inventorymanager.Controllers.PartsController;
 import inventorymanager.Interfaces.IObserver;
 import inventorymanager.Models.Parts.Part;
@@ -64,12 +65,8 @@ public class DataTable extends BorderPane implements IObserver {
                 BorderWidths.DEFAULT
         )));
         
-        //Subscribe to appropriate changes
-        if(this.type.equals("parts")) {
-            PartsController.attach(this);
-        } else {
-            //TODO: Attach to ProductsController
-        }
+        //Subscribe to changes
+        InventoryController.attach(this);
         
         //Create and place components
         this.initializeComponents();
@@ -188,7 +185,7 @@ public class DataTable extends BorderPane implements IObserver {
      */
     private void populateTable() {
         if(this.type.equals("parts")) {
-            ObservableList<Part> parts = FXCollections.observableArrayList(PartsController.get());
+            ObservableList<Part> parts = FXCollections.observableArrayList(InventoryController.getParts());
             this.table.setItems(parts);
         }
     }

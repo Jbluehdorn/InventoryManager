@@ -3,10 +3,12 @@ package inventorymanager.Models;
 import java.util.ArrayList;
 
 import inventorymanager.Models.Parts.*;
+import java.util.Collection;
+import java.util.UUID;
 
 public class Inventory {
-    private ArrayList<Product> products;
-    private ArrayList<Part> allParts;
+    private ArrayList<Product> products = new ArrayList<Product>();
+    private ArrayList<Part> allParts = new ArrayList<Part>();
 
     /**
      * ADDS A PRODUCT TO PRODUCTS
@@ -24,7 +26,7 @@ public class Inventory {
      * PARAMS: productID - the productID of the product to remove
      * RETURNS: removal success
      */
-    public boolean removeProduct(int productID) {
+    public boolean removeProduct(UUID productID) {
         int productIndex = -1;
 
         for(int i = 0; i < this.products.size(); i++) {
@@ -41,6 +43,16 @@ public class Inventory {
             throw new IndexOutOfBoundsException("PRODUCT NOT FOUND");
         }
     }
+    
+    /**
+     * GETS ALL PRODUCTS
+     * 
+     * PARAMS: none
+     * RETURNS: Collection of Products
+     */
+    public Collection<Product> getProducts() {
+        return this.products;
+    }
 
     /**
      * FINDS A PRODUCT
@@ -48,7 +60,7 @@ public class Inventory {
      * PARAMS: productID - the productID of the product to search
      * RETURNS: InventoryManager.Models.Product
      */
-    public Product lookupProduct(int productID) {
+    public Product lookupProduct(UUID productID) {
         int productIndex = -1;
 
         for(int i = 0; i < this.products.size(); i++) {
@@ -79,9 +91,9 @@ public class Inventory {
      * DELETES A PART FROM ALLPARTS
      * 
      * PARAMS: partID - the partID of the part to be removed
-     * RETURNS: removal succesful
+     * RETURNS: removal successful
      */
-    public boolean deletePart(int partID) {
+    public boolean removePart(UUID partID) {
         int partIndex = -1;
 
         for(int i = 0; i < this.allParts.size(); i++) {
@@ -98,6 +110,16 @@ public class Inventory {
             throw new IndexOutOfBoundsException("PART NOT FOUND");
         }
     }
+    
+    /**
+     * GETS ALL PARTS
+     * 
+     * PARAMS: none
+     * RETURNS: Collection of Parts
+     */
+    public Collection<Part> getParts() {
+        return this.allParts;
+    }
 
     /**
      * FINDS A PART IN ALLPARTS
@@ -105,7 +127,7 @@ public class Inventory {
      * PARAMS: partID - the partID of the Part to find
      * RETURNS: InventoryManager.Models.Parts.Part
      */
-    public Part lookupPart(int partID) {
+    public Part lookupPart(UUID partID) {
         int partIndex = -1;
 
         for(int i = 0; i < this.allParts.size(); i++) {

@@ -1,7 +1,9 @@
 package inventorymanager.Models.Parts;
 
+import java.util.UUID;
+
 public abstract class Part {
-    private int partID;
+    private UUID partID;
     private String name;
     private double price;
     private int inStock;
@@ -10,8 +12,8 @@ public abstract class Part {
     
     public Part() {};
     
-    public Part(int partID, String name, double price, int inStock, int min, int max) {
-        this.partID = partID;
+    public Part(String name, double price, int inStock, int min, int max) {
+        this.partID = UUID.randomUUID();
         this.name = name;
         this.price = price;
         this.inStock = inStock;
@@ -65,11 +67,11 @@ public abstract class Part {
     }
 
     //Getter and Setter for partID
-    public void setPartID(int partID) {
+    public void setPartID(UUID partID) {
         this.partID = partID;
     }
 
-    public int getPartID() {
+    public UUID getPartID() {
         return this.partID;
     }
 }
