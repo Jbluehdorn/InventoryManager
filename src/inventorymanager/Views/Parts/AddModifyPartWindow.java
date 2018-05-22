@@ -26,12 +26,16 @@ import javafx.stage.Stage;
 /**
  * This window shows the "Add Part" dialog
  */
-public class AddPartWindow extends VBox {
+public class AddModifyPartWindow extends VBox {
     //SETTINGS
     private final double spacing = 10.0;
     private enum Alignment {
         RIGHT,
         LEFT
+    }
+    public enum Type {
+        ADD,
+        MODIFY
     }
     
     //COMPONENTS
@@ -59,7 +63,11 @@ public class AddPartWindow extends VBox {
     private Button btnSave, btnCancel;
     private ArrayList<Pane> rows;
     
-    public AddPartWindow() {
+    //DATA
+    private Part modifyPart;
+    private Type windowType;
+    
+    public AddModifyPartWindow(Type type) {
         //Set settings
         this.setPadding(new Insets(
                 Settings.panePadTop, 
@@ -67,10 +75,17 @@ public class AddPartWindow extends VBox {
                 Settings.panePadBot, 
                 Settings.panePadLeft));
         this.setSpacing(this.spacing);
+        this.windowType = type;
         
         //Initialize and populate
         this.initializeComponents();
         this.populateBox();
+    }
+    
+    public AddModifyPartWindow(Type type, Part part) {
+        this(type);
+        
+        this.modifyPart = part;
     }
     
     /**
@@ -152,7 +167,7 @@ public class AddPartWindow extends VBox {
                 Settings.btnPadRight, 
                 Settings.btnPadBot, 
                 Settings.btnPadLeft));
-        this.btnSave.setOnAction(e -> this.savePart());
+        this.btnSave.setOnAction(e -> this.save());
         
         this.btnCancel = new Button("Cancel");
         this.btnCancel.setPadding(new Insets(
@@ -185,38 +200,90 @@ public class AddPartWindow extends VBox {
         for(Pane pane : rows) {
             this.getChildren().add(pane);
         }
+        
+        this.populateFields();
+    }
+    
+    /**
+     * POPULATES ALL FORM FIELDS 
+     */
+    private void populateFields() {
+        if(this.windowType != Type.MODIFY)
+            return;
+        
+        this.txtID.setText(this.modifyPart.getPartID().toString());
+        this.txtName.setText(this.modifyPart.getName());
+        this.txtInv.setText(Integer.toString(this.modifyPart.getInstock()));
+        this.txtPrice.setText(Double.toString(this.modifyPart.getPrice()));
+        this.txtMax.setText(Integer.toString(this.modifyPart.getMax()));
+        this.txtMin.setText(Integer.toString(this.modifyPart.getMin()));
+        
+        switch(this.modifyPart.getName()) {
+            case "Inhouse":
+                this.txtAdditional.setText(Integer.toString(((Inhouse)this.modifyPart).getMachineID()));
+                this.rbInhouse.setSelected(true);
+                break;
+            case "Outsourced":
+                this.txtAdditional.setText(((Outsourced)this.modifyPart).getCompanyName());
+                this.rbOutsourced.setSelected(true);
+                break;
+        }
+    }
+
+    /**
+     * DETERMINES SAVE TYPE AND THENS SAVES
+     */
+    private void save() {
+        switch(this.windowType) {
+            case ADD:
+                this.saveNewPart();
+                break;
+            case MODIFY:
+                this.saveModifyPart();
+                break;
+        }
+        
+        this.closeWindow();
     }
     
     /**
      * SAVES THE NEW PART AND CLOSES THE WINDOW
      */
-    private void savePart() {
+    private void saveNewPart() {
         String type = this.radioGroup.getSelectedToggle().getUserData().toString();
-        Part part;
-        
-        if(type.equals("inhouse")) {
-            part = new Inhouse(
+        Part part = null;
+
+        switch(type) {
+            case "inhouse":
+                part = new Inhouse(
                     this.txtName.getText(),
                     Double.parseDouble(this.txtPrice.getText()),
                     Integer.parseInt(this.txtInv.getText()),
                     Integer.parseInt(this.txtMax.getText()),
                     Integer.parseInt(this.txtMin.getText()),
                     Integer.parseInt(this.txtAdditional.getText())
-            );
-        } else {
-            part = new Outsourced(
+                ); 
+                break;
+            case "outsourced":
+                part = new Outsourced(
                     this.txtName.getText(),
                     Double.parseDouble(this.txtPrice.getText()),
                     Integer.parseInt(this.txtInv.getText()),
                     Integer.parseInt(this.txtMax.getText()),
                     Integer.parseInt(this.txtMin.getText()),
                     this.txtAdditional.getText()
-            );
+                );
+                break;
         }
         
         InventoryController.addPart(part);
-        
-        this.closeWindow();
+    }
+
+    /**
+     * SAVES A MODIFIED PART
+     */
+    private void saveModifyPart() {
+
     }
     
     /**

@@ -5,9 +5,7 @@
  */
 package inventorymanager;
 
-import inventorymanager.Controllers.SceneController;
 import inventorymanager.Models.Parts.*;
-import inventorymanager.Models.*;
 import inventorymanager.Controllers.*;
 import java.util.ArrayList;
 import javafx.application.Application;
@@ -26,18 +24,9 @@ public class InventoryManager extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        window = primaryStage;
-        window.setTitle(title);
-        window.setResizable(false);
-        
         this.populateTestData();
-
         
-        SceneRegister register = new SceneRegister();
-        window.setScene(SceneController.getScene("main", Settings.windowHeight, Settings.windowWidth * 2));
-        
-        
-        window.show();
+        HomeController.MainWindow();
     }
 
     /**
