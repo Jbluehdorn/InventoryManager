@@ -6,7 +6,7 @@ import inventorymanager.Models.Parts.Outsourced;
 import inventorymanager.Models.Parts.Part;
 import inventorymanager.Settings;
 import java.util.ArrayList;
-import javafx.beans.value.ChangeListener;
+import java.util.Arrays;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -84,15 +84,15 @@ public class AddModifyPartWindow extends VBox {
     
     public AddModifyPartWindow(Type type, Part part) {
         this(type);
-        
         this.modifyPart = part;
+        this.populateFields();
     }
     
     /**
      * INITIALIZE ALL COMPONENTS
      */
     private void initializeComponents() {
-        this.rows = new ArrayList<Pane>();
+        this.rows = new ArrayList<>();
         
         //Labels
         this.lblTitle = new Label("Add Part");
@@ -144,11 +144,8 @@ public class AddModifyPartWindow extends VBox {
         
         //Radio buttons
         this.radioGroup = new ToggleGroup();
-        this.radioGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() { 
-            @Override
-            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                setAdditionalField();
-            }
+        this.radioGroup.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
+            setAdditionalField();
         });
         
         this.rbInhouse = new RadioButton("In-House");
@@ -197,11 +194,9 @@ public class AddModifyPartWindow extends VBox {
         this.getChildren().add(this.lblTitle);
         
         //Form fields
-        for(Pane pane : rows) {
+        rows.forEach((pane) -> {
             this.getChildren().add(pane);
-        }
-        
-        this.populateFields();
+        });
     }
     
     /**
@@ -218,7 +213,7 @@ public class AddModifyPartWindow extends VBox {
         this.txtMax.setText(Integer.toString(this.modifyPart.getMax()));
         this.txtMin.setText(Integer.toString(this.modifyPart.getMin()));
         
-        switch(this.modifyPart.getName()) {
+        switch(this.modifyPart.getClass().getSimpleName()) {
             case "Inhouse":
                 this.txtAdditional.setText(Integer.toString(((Inhouse)this.modifyPart).getMachineID()));
                 this.rbInhouse.setSelected(true);
@@ -320,9 +315,7 @@ public class AddModifyPartWindow extends VBox {
     private void addRadioRow(RadioButton... btns) {
         HBox temp = new HBox();
         
-        for(RadioButton btn : btns) {
-            temp.getChildren().add(btn);
-        }
+        temp.getChildren().addAll(Arrays.asList(btns));
         
         temp.setPadding(new Insets(
                 0,

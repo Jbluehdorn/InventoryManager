@@ -37,7 +37,7 @@ public class InventoryManager extends Application {
     }
     
     public static void populateTestData() {
-        ArrayList<Part> parts = new ArrayList<Part>();
+        ArrayList<Part> parts = new ArrayList<>();
         parts.add(new Inhouse("Banana", 3.50, 20, 1, 200, 8732));
         parts.add(new Inhouse("Orange", 3.20, 15, 1, 200, 6419));
         parts.add(new Outsourced("Gun", 125.99, 7, 5, 20, "Canada Corp."));

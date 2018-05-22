@@ -5,6 +5,7 @@ import inventorymanager.Controllers.PartsController;
 import inventorymanager.Interfaces.IObserver;
 import inventorymanager.Models.Parts.Part;
 import inventorymanager.Settings;
+import java.util.UUID;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
@@ -147,13 +148,7 @@ public class DataTable extends BorderPane implements IObserver {
                 Settings.btnPadBot, 
                 Settings.btnPadLeft
         ));
-        this.btnAdd.setOnAction(e -> {
-            switch(this.type) {
-                case PARTS:
-                    PartsController.addForm();
-                    break;
-            }
-        });
+        this.btnAdd.setOnAction(e -> this.openAddForm());
         
         this.btnMod = new Button("Modify");
         this.btnMod.setPadding(new Insets(
@@ -162,6 +157,7 @@ public class DataTable extends BorderPane implements IObserver {
                 Settings.btnPadBot, 
                 Settings.btnPadLeft
         ));
+        this.btnMod.setOnAction(e -> this.openModForm());
         
         this.btnDel = new Button("Delete");
         this.btnDel.setPadding(new Insets(
@@ -205,6 +201,29 @@ public class DataTable extends BorderPane implements IObserver {
             case PARTS:
                 ObservableList<Part> parts = FXCollections.observableArrayList(InventoryController.getParts());
                 this.table.setItems(parts);
+                break;
+        }
+    }
+    
+    /**
+     * OPENS THE CORRESPEONDING ADDFORM
+     */
+    private void openAddForm() {
+        switch(this.type) {
+            case PARTS:
+                PartsController.addForm();
+                break;
+        }
+    }
+    
+    /**
+     * OPENS THE CORRESPONDING MOD FORM
+     */
+    private void openModForm() {
+        switch(this.type) {
+            case PARTS:
+                UUID partID = ((TableView<Part>)this.table).getSelectionModel().getSelectedItem().getPartID();
+                PartsController.modForm(partID);
                 break;
         }
     }
