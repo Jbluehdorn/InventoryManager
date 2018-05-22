@@ -5,7 +5,6 @@ import inventorymanager.Controllers.PartsController;
 import inventorymanager.Interfaces.IObserver;
 import inventorymanager.Models.Parts.Part;
 import inventorymanager.Settings;
-import inventorymanager.Util.StringUtility;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;

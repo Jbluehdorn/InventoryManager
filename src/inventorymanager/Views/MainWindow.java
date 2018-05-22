@@ -1,6 +1,7 @@
 package inventorymanager.Views;
 
 import inventorymanager.Views.Partials.DataTable;
+import inventorymanager.Views.Partials.DataTable.*;
 import inventorymanager.Settings;
 import javafx.application.Platform;
 import javafx.scene.text.Font;
@@ -48,9 +49,9 @@ public class MainWindow extends BorderPane {
         this.paneMiddle.setVgap(middleVGap);
         this.paneMiddle.setHgap(middleHGap);
         
-        this.partsTable = new DataTable("parts");
+        this.partsTable = new DataTable(Type.PARTS);
         
-        this.productsTable = new DataTable("products");
+        this.productsTable = new DataTable(Type.PRODUCTS);
         
         this.btnExit = new Button("Exit");
         this.btnExit.setPadding(new Insets(Settings.btnPadTop, Settings.btnPadRight, Settings.btnPadBot, Settings.btnPadLeft));
