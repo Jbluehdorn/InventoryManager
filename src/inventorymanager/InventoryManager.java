@@ -46,8 +46,6 @@ public class InventoryManager extends Application {
         for(Part part : parts) {
             InventoryController.addPart(part);
         }
-        
-        
     }
     
 }

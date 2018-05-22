@@ -11,33 +11,33 @@ import java.util.UUID;
  * Controls the inventory data flow
  */
 public class InventoryController {
-    private static Inventory inventory = new Inventory();
+    private static final Inventory INVENTORY = new Inventory();
     public static ArrayList<IObserver> observers = new ArrayList<IObserver>();
     
     /**
      * PRODUCT CRUD
      */
     public static void addProduct(Product prod) {
-        inventory.addProduct(prod);
+        INVENTORY.addProduct(prod);
         notifyObservers();
     }
     
     public static boolean removeProduct(UUID id) {
-        boolean success = inventory.removeProduct(id);
+        boolean success = INVENTORY.removeProduct(id);
         notifyObservers();
         return success;
     }
     
     public static Collection<Product> getProducts() {
-        return inventory.getProducts();
+        return INVENTORY.getProducts();
     }
     
     public static Product getProduct(UUID id) {
-        return inventory.lookupProduct(id);
+        return INVENTORY.lookupProduct(id);
     }
     
     public static void updateProduct(Product prod) {
-        //TODO flesh out update method
+        INVENTORY.updateProduct(prod);
         
         notifyObservers();
     }
@@ -46,26 +46,26 @@ public class InventoryController {
      * PART CRUD
      */
     public static void addPart(Part part) {
-        inventory.addPart(part);
+        INVENTORY.addPart(part);
         notifyObservers();
     }
     
     public static boolean removePart(UUID id) {
-        boolean success = inventory.removePart(id);
+        boolean success = INVENTORY.removePart(id);
         notifyObservers();
         return success;
     }
     
     public static Collection<Part> getParts() {
-        return inventory.getParts();
+        return INVENTORY.getParts();
     }
     
     public static Part getPart(UUID id) {
-        return inventory.lookupPart(id);
+        return INVENTORY.lookupPart(id);
     }
     
     public static void updatePart(Part part) {
-        //TODO flesh out update method
+        INVENTORY.updatePart(part);
         
         notifyObservers();
     }
@@ -82,8 +82,8 @@ public class InventoryController {
     }
     
     public static void notifyObservers() {
-        for(IObserver obs : observers){
+        observers.forEach((obs) -> {
             obs.update();
-        }
+        });
     }
 }

@@ -76,6 +76,17 @@ public class Inventory {
             throw new IndexOutOfBoundsException("PRODUCT NOT FOUND");
         }
     }
+    
+    /**
+     * UPDATES AN EXISTING PRODUCT
+     * 
+     * PARAMS: product - the Product to update
+     * RETURNS: void
+     */
+    public void updateProduct(Product product) {
+        this.removeProduct(product.getProductID());
+        this.addProduct(product);
+    }
 
     /**
      * ADDS A PART TO ALLPARTS
@@ -142,5 +153,16 @@ public class Inventory {
         } else {
             throw new IndexOutOfBoundsException("PART NOT FOUND");
         }
+    }
+    
+    /**
+     * UPDATES AN EXISTING PART
+     * 
+     * PARAMS: part - the Part to update
+     * RETURNS: void
+     */
+    public void updatePart(Part part) {
+        this.removePart(part.getPartID());
+        this.addPart(part);
     }
 }

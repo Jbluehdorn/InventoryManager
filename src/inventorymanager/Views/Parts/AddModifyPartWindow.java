@@ -293,7 +293,22 @@ public class AddModifyPartWindow extends VBox {
      * SAVES A MODIFIED PART
      */
     private void saveModifyPart() {
-
+        this.modifyPart.setName(this.txtName.getText());
+        this.modifyPart.setInStock(Integer.parseInt(this.txtInv.getText()));
+        this.modifyPart.setPrice(Double.parseDouble(this.txtPrice.getText()));
+        this.modifyPart.setMax(Integer.parseInt(this.txtMax.getText()));
+        this.modifyPart.setMin(Integer.parseInt(this.txtMin.getText()));
+        
+        switch(this.modifyPart.getClass().getSimpleName()) {
+            case "Inhouse":
+                ((Inhouse)this.modifyPart).setMachineID(Integer.parseInt(this.txtAdditional.getText()));
+                break;
+            case "Outsourced":
+                ((Outsourced)this.modifyPart).setCompanyName(this.txtAdditional.getText());
+                break;
+        }
+        
+        InventoryController.updatePart(this.modifyPart);
     }
     
     /**
@@ -373,12 +388,15 @@ public class AddModifyPartWindow extends VBox {
     private void setAdditionalField() {
         String type = this.radioGroup.getSelectedToggle().getUserData().toString();
         
-        if(type.equals("inhouse")) {
-            this.lblAdditional.setText("Machine ID");
-            this.txtAdditional.setPromptText("Mach ID");
-        } else {
-            this.lblAdditional.setText("Company Name");
-            this.txtAdditional.setPromptText("Comp Nm");
+        switch(type) {
+            case "inhouse":
+                this.lblAdditional.setText("Machine ID");
+                this.txtAdditional.setPromptText("Mach ID");
+                break;
+            case "outsourced":
+                this.lblAdditional.setText("Company Name");
+                this.txtAdditional.setPromptText("Comp Nm");
+                break;
         }
     }
 }
