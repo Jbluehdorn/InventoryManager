@@ -166,6 +166,7 @@ public class DataTable extends BorderPane implements IObserver {
                 Settings.btnPadBot, 
                 Settings.btnPadLeft
         ));
+        this.btnDel.setOnAction(e -> this.openDeleteForm());
     }
     
     /**
@@ -224,6 +225,18 @@ public class DataTable extends BorderPane implements IObserver {
             case PARTS:
                 UUID partID = ((TableView<Part>)this.table).getSelectionModel().getSelectedItem().getPartID();
                 PartsController.modForm(partID);
+                break;
+        }
+    }
+    
+    /**
+     * OPENS THE CORRESPONDING DELETE FORM
+     */
+    private void openDeleteForm() {
+        switch(this.type) {
+            case PARTS:
+                UUID partID = ((TableView<Part>)this.table).getSelectionModel().getSelectedItem().getPartID();
+                PartsController.deleteForm(partID);
                 break;
         }
     }
