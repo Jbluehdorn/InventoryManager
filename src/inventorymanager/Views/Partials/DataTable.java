@@ -33,7 +33,12 @@ import javafx.scene.text.Font;
  */
 public class DataTable extends BorderPane implements IObserver {
     //SETTINGS
-    private String type;
+    private Type type;
+    private String typeLabel;
+    public enum Type {
+        PARTS,
+        PRODUCTS
+    }
     
     //COMPONENTS
     private HBox boxSearch, boxCrudBtns;
@@ -44,12 +49,17 @@ public class DataTable extends BorderPane implements IObserver {
     private TextField txtSearch;
     private TableView table;
     
-    public DataTable(String type) {
-        if(!type.toLowerCase().equals("parts") && !type.toLowerCase().equals("products"))
-            throw new IllegalArgumentException("TYPE MUST BE PARTS OR PRODUCTS. '" + type + "' GIVEN.");
-        
+    public DataTable(Type type) {
         //Set the type
-        this.type = type.toLowerCase();
+        this.type = type;
+        switch(this.type) {
+            case PARTS:
+                this.typeLabel = "Parts";
+                break;
+            case PRODUCTS:
+                this.typeLabel = "Products";
+                break;
+        }
         
         //Create pane settings
         this.setPadding(new Insets(
@@ -78,7 +88,7 @@ public class DataTable extends BorderPane implements IObserver {
      * INITIALIZES ALL COMPONENTS
      */
     private void initializeComponents() {
-        this.lblPrimary = new Label(StringUtility.capitalizeFirst(this.type));
+        this.lblPrimary = new Label(this.typeLabel);
         this.lblPrimary.setFont(Font.font(Settings.font, Settings.subheaderTextSize));
         
         this.anchorTop = new AnchorPane();
@@ -108,11 +118,11 @@ public class DataTable extends BorderPane implements IObserver {
         ));
         
         this.table = new TableView();
-        TableColumn colID = new TableColumn(StringUtility.capitalizeFirst(this.type) + " ID");
+        TableColumn colID = new TableColumn(this.typeLabel);
         colID.setCellValueFactory(
-                new PropertyValueFactory<>(this.type.equals("parts") ? "partID" : "productID")
+                new PropertyValueFactory<>(this.type == Type.PARTS ? "partID" : "productID")
         );
-        TableColumn colName = new TableColumn(StringUtility.capitalizeFirst(this.type) + " Name");
+        TableColumn colName = new TableColumn(this.typeLabel + " Name");
         colName.setCellValueFactory(
                 new PropertyValueFactory<>("name")
         );
@@ -139,8 +149,10 @@ public class DataTable extends BorderPane implements IObserver {
                 Settings.btnPadLeft
         ));
         this.btnAdd.setOnAction(e -> {
-            if(this.type.equals("parts")) {
-                PartsController.addForm();
+            switch(this.type) {
+                case PARTS:
+                    PartsController.addForm();
+                    break;
             }
         });
         
@@ -190,9 +202,11 @@ public class DataTable extends BorderPane implements IObserver {
      * POPULATES THE TABLE WITH THE CORRECT DATA
      */
     private void populateTable() {
-        if(this.type.equals("parts")) {
-            ObservableList<Part> parts = FXCollections.observableArrayList(InventoryController.getParts());
-            this.table.setItems(parts);
+        switch(this.type) {
+            case PARTS:
+                ObservableList<Part> parts = FXCollections.observableArrayList(InventoryController.getParts());
+                this.table.setItems(parts);
+                break;
         }
     }
 

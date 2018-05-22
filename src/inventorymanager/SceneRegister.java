@@ -1,5 +1,6 @@
 package inventorymanager;
 
+import inventorymanager.Views.Parts.AddPartWindow;
 import inventorymanager.Controllers.SceneController;
 import inventorymanager.Views.*;
 import javafx.scene.Scene;
