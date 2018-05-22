@@ -66,6 +66,7 @@ public class AddModifyPartWindow extends VBox {
     //DATA
     private Part modifyPart;
     private Type windowType;
+    private String windowTitle;
     
     public AddModifyPartWindow(Type type) {
         //Set settings
@@ -76,6 +77,15 @@ public class AddModifyPartWindow extends VBox {
                 Settings.panePadLeft));
         this.setSpacing(this.spacing);
         this.windowType = type;
+        
+        switch(this.windowType) {
+            case ADD:
+                this.windowTitle = "Add Part";
+                break;
+            case MODIFY:
+                this.windowTitle = "Modify Part";
+                break;
+        }
         
         //Initialize and populate
         this.initializeComponents();
@@ -95,7 +105,7 @@ public class AddModifyPartWindow extends VBox {
         this.rows = new ArrayList<>();
         
         //Labels
-        this.lblTitle = new Label("Add Part");
+        this.lblTitle = new Label(this.windowTitle);
         this.lblTitle.setFont(Font.font(Settings.font, Settings.headerTextSize));
         
         this.lblID = new Label("ID");
@@ -212,6 +222,11 @@ public class AddModifyPartWindow extends VBox {
         this.txtPrice.setText(Double.toString(this.modifyPart.getPrice()));
         this.txtMax.setText(Integer.toString(this.modifyPart.getMax()));
         this.txtMin.setText(Integer.toString(this.modifyPart.getMin()));
+        
+        //Prevent switching part type
+        this.radioGroup.getToggles().forEach((toggle) -> {
+            ((RadioButton)toggle).setDisable(true);
+        });
         
         switch(this.modifyPart.getClass().getSimpleName()) {
             case "Inhouse":
