@@ -9,6 +9,7 @@ import inventorymanager.Models.Product;
 import inventorymanager.Settings;
 import java.util.ArrayList;
 import java.util.UUID;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -151,6 +152,7 @@ public class DataTable extends BorderPane implements IObserver {
                 Settings.btnPadLeft
         ));
         this.btnAdd.setOnAction(e -> this.openAddForm());
+        Platform.runLater(()->this.btnAdd.requestFocus()); //Prevents text field from gaining focus on startup
         
         this.btnMod = new Button("Modify");
         this.btnMod.setPadding(new Insets(
