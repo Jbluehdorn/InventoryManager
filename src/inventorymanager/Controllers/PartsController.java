@@ -22,7 +22,7 @@ public class PartsController {
     /**
      * FORMS
      */
-    public static void addForm() {
+    public static void showAddForm() {
         //Add part pane
         Pane addPartPane = new AddModifyPartWindow(Type.ADD);
         
@@ -33,7 +33,7 @@ public class PartsController {
         stage.show();
     }
     
-    public static void modForm(UUID partID) {
+    public static void showModForm(UUID partID) {
         //Part to be modified
         Part part = InventoryController.getPart(partID);
         
@@ -47,7 +47,7 @@ public class PartsController {
         stage.show();
     }
     
-    public static void deleteForm(UUID partID) {
+    public static void showDeleteForm(UUID partID) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         
         Part part = InventoryController.getPart(partID);

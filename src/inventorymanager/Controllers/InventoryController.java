@@ -28,12 +28,20 @@ public class InventoryController {
         return success;
     }
     
-    public static Collection<Product> getProducts() {
+    public static Iterable<Product> getProducts() {
         return INVENTORY.getProducts();
     }
     
     public static Product getProduct(UUID id) {
         return INVENTORY.lookupProduct(id);
+    }
+    
+    public static Iterable<Product> searchProducts(String searchTerm) {
+        ArrayList<Product> products = (ArrayList<Product>) getProducts();
+        
+        products.removeIf(prod -> !prod.getName().contains(searchTerm));
+        
+        return products;
     }
     
     public static void updateProduct(Product prod) {
@@ -56,12 +64,20 @@ public class InventoryController {
         return success;
     }
     
-    public static Collection<Part> getParts() {
+    public static Iterable<Part> getParts() {
         return INVENTORY.getParts();
     }
     
     public static Part getPart(UUID id) {
         return INVENTORY.lookupPart(id);
+    }
+    
+    public static Iterable<Part> searchParts(String searchTerm) {
+        ArrayList<Part> parts = (ArrayList<Part>) getParts();
+        
+        parts.removeIf(part -> !part.getName().contains(searchTerm));
+        
+        return parts;
     }
     
     public static void updatePart(Part part) {

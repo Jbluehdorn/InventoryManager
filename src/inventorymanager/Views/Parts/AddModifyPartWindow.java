@@ -216,9 +216,9 @@ public class AddModifyPartWindow extends VBox {
         if(this.windowType != Type.MODIFY)
             return;
         
-        this.txtID.setText(this.modifyPart.getPartID().toString());
+        this.txtID.setText(this.modifyPart.getID().toString());
         this.txtName.setText(this.modifyPart.getName());
-        this.txtInv.setText(Integer.toString(this.modifyPart.getInstock()));
+        this.txtInv.setText(Integer.toString(this.modifyPart.getInStock()));
         this.txtPrice.setText(Double.toString(this.modifyPart.getPrice()));
         this.txtMax.setText(Integer.toString(this.modifyPart.getMax()));
         this.txtMin.setText(Integer.toString(this.modifyPart.getMin()));

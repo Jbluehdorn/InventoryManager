@@ -30,7 +30,7 @@ public class Inventory {
         int productIndex = -1;
 
         for(int i = 0; i < this.products.size(); i++) {
-            if(this.products.get(i).getProductID() == productID) {
+            if(this.products.get(i).getID() == productID) {
                 productIndex = i;
                 break;
             }
@@ -64,7 +64,7 @@ public class Inventory {
         int productIndex = -1;
 
         for(int i = 0; i < this.products.size(); i++) {
-            if(this.products.get(i).getProductID() == productID) {
+            if(this.products.get(i).getID() == productID) {
                 productIndex = i;
                 break;
             }
@@ -84,7 +84,7 @@ public class Inventory {
      * RETURNS: void
      */
     public void updateProduct(Product product) {
-        this.removeProduct(product.getProductID());
+        this.removeProduct(product.getID());
         this.addProduct(product);
     }
 
@@ -108,7 +108,7 @@ public class Inventory {
         int partIndex = -1;
 
         for(int i = 0; i < this.allParts.size(); i++) {
-            if(this.allParts.get(i).getPartID() == partID) {
+            if(this.allParts.get(i).getID() == partID) {
                 partIndex = i;
                 break;
             }
@@ -142,7 +142,7 @@ public class Inventory {
         int partIndex = -1;
 
         for(int i = 0; i < this.allParts.size(); i++) {
-            if(this.allParts.get(i).getPartID() == partID) {
+            if(this.allParts.get(i).getID() == partID) {
                 partIndex = i;
                 break;
             }
@@ -162,7 +162,7 @@ public class Inventory {
      * RETURNS: void
      */
     public void updatePart(Part part) {
-        this.removePart(part.getPartID());
+        this.removePart(part.getID());
         this.addPart(part);
     }
 }

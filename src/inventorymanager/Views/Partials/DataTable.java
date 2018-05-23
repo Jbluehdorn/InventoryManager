@@ -2,12 +2,16 @@ package inventorymanager.Views.Partials;
 
 import inventorymanager.Controllers.InventoryController;
 import inventorymanager.Controllers.PartsController;
+import inventorymanager.Interfaces.IInventoryItem;
 import inventorymanager.Interfaces.IObserver;
 import inventorymanager.Models.Parts.Part;
+import inventorymanager.Models.Product;
 import inventorymanager.Settings;
+import java.util.ArrayList;
 import java.util.UUID;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.paint.Color;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -45,9 +49,12 @@ public class DataTable extends BorderPane implements IObserver {
     private VBox boxCenter;
     private AnchorPane anchorTop;
     private Label lblPrimary;
-    private Button btnSearch, btnAdd, btnMod, btnDel;
+    private Button btnAdd, btnMod, btnDel;
     private TextField txtSearch;
     private TableView table;
+    
+    //DATA
+    FilteredList<IInventoryItem> filteredItems;
     
     public DataTable(Type type) {
         //Set the type
@@ -97,16 +104,11 @@ public class DataTable extends BorderPane implements IObserver {
         this.boxSearch.setSpacing(5);
         this.boxSearch.setAlignment(Pos.BASELINE_RIGHT);
         
-        this.btnSearch = new Button("Search");
-        this.btnSearch.setPadding(new Insets(
-                Settings.btnPadTop, 
-                Settings.btnPadRight, 
-                Settings.btnPadBot, 
-                Settings.btnPadLeft
-        ));
-        
         this.txtSearch = new TextField();
         this.txtSearch.setPromptText("Search...");
+        this.txtSearch.textProperty().addListener((obs, oldVal, newVal) -> {
+            this.filterTable();
+        });
         
         this.boxCenter = new VBox();
         this.boxCenter.setSpacing(5);
@@ -120,19 +122,19 @@ public class DataTable extends BorderPane implements IObserver {
         this.table = new TableView();
         TableColumn colID = new TableColumn(this.typeLabel);
         colID.setCellValueFactory(
-                new PropertyValueFactory<>(this.type == Type.PARTS ? "partID" : "productID")
+                new PropertyValueFactory<IInventoryItem, UUID>("ID")
         );
         TableColumn colName = new TableColumn(this.typeLabel + " Name");
         colName.setCellValueFactory(
-                new PropertyValueFactory<>("name")
+                new PropertyValueFactory<IInventoryItem, String>("name")
         );
         TableColumn colInv = new TableColumn("Inventory Level");
         colInv.setCellValueFactory(
-                new PropertyValueFactory<>("instock")
+                new PropertyValueFactory<IInventoryItem, String>("inStock")
         );
         TableColumn colPrice = new TableColumn("Price per Unit");
         colPrice.setCellValueFactory(
-                new PropertyValueFactory<>("price")
+                new PropertyValueFactory<IInventoryItem, String>("price")
         );
         this.table.getColumns().addAll(colID, colName, colInv, colPrice);
         this.table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -173,7 +175,7 @@ public class DataTable extends BorderPane implements IObserver {
      * POPULATES THE TOP SECTION
      */
     private void populateTop() {
-        this.boxSearch.getChildren().addAll(this.btnSearch, this.txtSearch);
+        this.boxSearch.getChildren().addAll(this.txtSearch);
         
         this.anchorTop.getChildren().addAll(this.lblPrimary, this.boxSearch);
         AnchorPane.setLeftAnchor(this.lblPrimary, 0.0);
@@ -200,10 +202,24 @@ public class DataTable extends BorderPane implements IObserver {
     private void populateTable() {
         switch(this.type) {
             case PARTS:
-                ObservableList<Part> parts = FXCollections.observableArrayList(InventoryController.getParts());
-                this.table.setItems(parts);
+                ObservableList<IInventoryItem> parts = FXCollections.observableArrayList((ArrayList<Part>)InventoryController.getParts());
+                this.filteredItems = new FilteredList<>(parts, p -> true);
+                this.table.setItems(this.filteredItems);
                 break;
         }
+    }
+    
+    /**
+     * FILTERS THE TABLE 
+     */
+    private void filterTable() {
+        String searchTerm = this.txtSearch.getText().toLowerCase();
+        
+        this.filteredItems.setPredicate(item -> {
+            return item.getName().toLowerCase().contains(searchTerm) ||
+                    Double.toString(item.getPrice()).contains(searchTerm) ||
+                    Integer.toString(item.getInStock()).contains(searchTerm);
+        });
     }
     
     /**
@@ -212,7 +228,7 @@ public class DataTable extends BorderPane implements IObserver {
     private void openAddForm() {
         switch(this.type) {
             case PARTS:
-                PartsController.addForm();
+                PartsController.showAddForm();
                 break;
         }
     }
@@ -223,8 +239,8 @@ public class DataTable extends BorderPane implements IObserver {
     private void openModForm() {
         switch(this.type) {
             case PARTS:
-                UUID partID = ((TableView<Part>)this.table).getSelectionModel().getSelectedItem().getPartID();
-                PartsController.modForm(partID);
+                UUID partID = ((TableView<Part>)this.table).getSelectionModel().getSelectedItem().getID();
+                PartsController.showModForm(partID);
                 break;
         }
     }
@@ -235,8 +251,8 @@ public class DataTable extends BorderPane implements IObserver {
     private void openDeleteForm() {
         switch(this.type) {
             case PARTS:
-                UUID partID = ((TableView<Part>)this.table).getSelectionModel().getSelectedItem().getPartID();
-                PartsController.deleteForm(partID);
+                UUID partID = ((TableView<Part>)this.table).getSelectionModel().getSelectedItem().getID();
+                PartsController.showDeleteForm(partID);
                 break;
         }
     }

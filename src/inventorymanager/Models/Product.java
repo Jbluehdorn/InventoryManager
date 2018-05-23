@@ -1,9 +1,10 @@
 package inventorymanager.Models;
 
+import inventorymanager.Interfaces.IInventoryItem;
 import java.util.*;
 import inventorymanager.Models.Parts.*;
 
-public class Product {
+public class Product implements IInventoryItem {
     private ArrayList<Part> associatedParts;
     private UUID productID;
     private String name;
@@ -32,7 +33,7 @@ public class Product {
         int partIndex = -1;
 
         for(int i = 0; i < this.associatedParts.size(); i++) {
-            if(this.associatedParts.get(i).getPartID() == partID) {
+            if(this.associatedParts.get(i).getID() == partID) {
                 partIndex = i;
                 break;
             }
@@ -56,7 +57,7 @@ public class Product {
         int partIndex = -1;
 
         for(int i = 0; i < this.associatedParts.size(); i++) {
-            if(this.associatedParts.get(i).getPartID() == partID) {
+            if(this.associatedParts.get(i).getID() == partID) {
                 partIndex = i;
                 break;
             }
@@ -115,11 +116,11 @@ public class Product {
     }
     
     //Getter and Setter for productID
-    public void setProductID(UUID productID) {
+    public void setID(UUID productID) {
         this.productID = productID;
     }
 
-    public UUID getProductID() {
+    public UUID getID() {
         return this.productID;
     }
 }

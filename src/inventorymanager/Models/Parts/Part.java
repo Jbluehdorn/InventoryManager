@@ -1,8 +1,9 @@
 package inventorymanager.Models.Parts;
 
+import inventorymanager.Interfaces.IInventoryItem;
 import java.util.UUID;
 
-public abstract class Part {
+public abstract class Part implements IInventoryItem {
     private UUID partID;
     private String name;
     private double price;
@@ -44,7 +45,7 @@ public abstract class Part {
         this.inStock = inStock;
     }
 
-    public int getInstock() {
+    public int getInStock() {
         return this.inStock;
     }
 
@@ -67,11 +68,11 @@ public abstract class Part {
     }
 
     //Getter and Setter for partID
-    public void setPartID(UUID partID) {
+    public void setID(UUID partID) {
         this.partID = partID;
     }
 
-    public UUID getPartID() {
+    public UUID getID() {
         return this.partID;
     }
 }
