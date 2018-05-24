@@ -2,8 +2,8 @@ package inventorymanager.Controllers;
 
 import inventorymanager.Models.Parts.Part;
 import inventorymanager.Settings;
-import inventorymanager.Views.Parts.AddModifyPartWindow;
-import inventorymanager.Views.Parts.AddModifyPartWindow.*;
+import inventorymanager.Views.AddModifyPartWindow;
+import inventorymanager.Views.AddModifyPartWindow.*;
 import java.util.Optional;
 import java.util.UUID;
 import javafx.scene.Scene;

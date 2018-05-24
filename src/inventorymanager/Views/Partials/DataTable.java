@@ -2,6 +2,7 @@ package inventorymanager.Views.Partials;
 
 import inventorymanager.Controllers.InventoryController;
 import inventorymanager.Controllers.PartsController;
+import inventorymanager.Controllers.ProductsController;
 import inventorymanager.Interfaces.IInventoryItem;
 import inventorymanager.Interfaces.IObserver;
 import inventorymanager.Models.Parts.Part;
@@ -42,7 +43,8 @@ public class DataTable extends BorderPane implements IObserver {
     private String typeLabel;
     public enum Type {
         PARTS,
-        PRODUCTS
+        PRODUCTS,
+        PRODUCT_PARTS
     }
     
     //COMPONENTS
@@ -56,6 +58,7 @@ public class DataTable extends BorderPane implements IObserver {
     
     //DATA
     FilteredList<IInventoryItem> filteredItems;
+    Product product;
     
     public DataTable(Type type) {
         //Set the type
@@ -90,6 +93,11 @@ public class DataTable extends BorderPane implements IObserver {
         this.initializeComponents();
         this.populateTop();
         this.populateCenter();
+    }
+    
+    public DataTable(Type type, Product product) {
+        this(type);
+        this.product = product;
     }
     
     /**
@@ -232,6 +240,9 @@ public class DataTable extends BorderPane implements IObserver {
             case PARTS:
                 PartsController.showAddForm();
                 break;
+            case PRODUCTS:
+                ProductsController.showAddForm();
+                break;
         }
     }
     
@@ -261,6 +272,7 @@ public class DataTable extends BorderPane implements IObserver {
 
     @Override
     public void update() {
+        this.txtSearch.setText("");
         this.populateTable();
     }
 }

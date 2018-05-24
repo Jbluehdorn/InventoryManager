@@ -1,4 +1,4 @@
-package inventorymanager.Views.Parts;
+package inventorymanager.Views;
 
 import inventorymanager.Controllers.InventoryController;
 import inventorymanager.Models.Parts.Inhouse;
