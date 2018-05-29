@@ -45,8 +45,7 @@ public class DataTable extends BorderPane implements IObserver {
     private String typeLabel;
     public enum Type {
         PARTS,
-        PRODUCTS,
-        PRODUCT_PARTS
+        PRODUCTS
     }
     
     //COMPONENTS

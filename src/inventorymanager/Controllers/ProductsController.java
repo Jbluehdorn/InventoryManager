@@ -22,7 +22,7 @@ public class ProductsController {
         //Create window
         Stage stage = new Stage();
         stage.setTitle("Add Product");
-        stage.setScene(new Scene(addProductPane, Settings.windowWidth * 2, Settings.windowHeight));
+        stage.setScene(new Scene(addProductPane, Settings.windowWidth * 1.5, Settings.windowHeight));
         stage.show();
     }
 }
