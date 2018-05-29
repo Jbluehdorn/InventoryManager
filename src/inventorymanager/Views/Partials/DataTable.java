@@ -8,6 +8,7 @@ import inventorymanager.Interfaces.IObserver;
 import inventorymanager.Models.Parts.Part;
 import inventorymanager.Models.Product;
 import inventorymanager.Settings;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 import javafx.application.Platform;
@@ -19,6 +20,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -129,11 +131,11 @@ public class DataTable extends BorderPane implements IObserver {
         ));
         
         this.table = new TableView();
-        TableColumn colID = new TableColumn(this.typeLabel);
+        TableColumn colID = new TableColumn(this.typeLabel.substring(0, this.typeLabel.length() - 1) + " ID");
         colID.setCellValueFactory(
                 new PropertyValueFactory<IInventoryItem, UUID>("ID")
         );
-        TableColumn colName = new TableColumn(this.typeLabel + " Name");
+        TableColumn colName = new TableColumn(this.typeLabel.substring(0, this.typeLabel.length() - 1) + " Name");
         colName.setCellValueFactory(
                 new PropertyValueFactory<IInventoryItem, String>("name")
         );
@@ -145,6 +147,18 @@ public class DataTable extends BorderPane implements IObserver {
         colPrice.setCellValueFactory(
                 new PropertyValueFactory<IInventoryItem, String>("price")
         );
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+        colPrice.setCellFactory(cell -> new TableCell<IInventoryItem, Double>() { 
+            @Override
+            protected void updateItem(Double price, boolean empty) {
+                super.updateItem(price, empty);
+                if(empty) {
+                    setText(null);
+                } else {
+                    setText(currencyFormat.format(price));
+                }
+            }
+        });
         this.table.getColumns().addAll(colID, colName, colInv, colPrice);
         this.table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         
@@ -214,6 +228,11 @@ public class DataTable extends BorderPane implements IObserver {
             case PARTS:
                 ObservableList<IInventoryItem> parts = FXCollections.observableArrayList((ArrayList<Part>)InventoryController.getParts());
                 this.filteredItems = new FilteredList<>(parts, p -> true);
+                this.table.setItems(this.filteredItems);
+                break;
+            case PRODUCTS:
+                ObservableList<IInventoryItem> products = FXCollections.observableArrayList((ArrayList<Product>)InventoryController.getProducts());
+                this.filteredItems = new FilteredList<>(products, p -> true);
                 this.table.setItems(this.filteredItems);
                 break;
         }

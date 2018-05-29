@@ -12,6 +12,15 @@ public class Product implements IInventoryItem {
     private int inStock;
     private int min;
     private int max;
+    
+    public Product(String name, double price, int inStock, int min, int max) {
+        this.productID = UUID.randomUUID();
+        this.name = name;
+        this.price = price;
+        this.inStock = inStock;
+        this.min = min;
+        this.max = max;
+    }
 
     /**
      * ADDS PART TO ARRAYLIST

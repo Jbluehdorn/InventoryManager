@@ -7,6 +7,7 @@ package inventorymanager;
 
 import inventorymanager.Models.Parts.*;
 import inventorymanager.Controllers.*;
+import inventorymanager.Models.Product;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -45,6 +46,15 @@ public class InventoryManager extends Application {
         
         for(Part part : parts) {
             InventoryController.addPart(part);
+        }
+        
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(new Product("Automobile", 10000.00, 12, 1, 15));
+        products.add(new Product("Plane", 750000.00, 5, 1, 5));
+        products.add(new Product("Train", 1250000.00, 3, 1, 10));
+        
+        for(Product prod : products) {
+            InventoryController.addProduct(prod);
         }
     }
     
