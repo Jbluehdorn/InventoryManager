@@ -2,6 +2,7 @@ package inventorymanager.Views;
 
 import inventorymanager.Settings;
 import inventorymanager.Views.Partials.ProductPartTable;
+import inventorymanager.Views.Partials.ProductPartTable.*;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -40,15 +41,15 @@ public class AddModifyProductWindow extends GridPane {
             txtMin;
     private VBox boxLeftCol, boxRightCol;
     private GridPane gridProductForm;
-    private ProductPartTable tableProductPart;
+    private ProductPartTable tblProductPart;
     
     //DATA
-    private Type windowType;
+    private Type type;
     private String windowLabel;
     
     public AddModifyProductWindow(Type type) {
         //Settings
-        this.windowType = type;
+        this.type = type;
         this.setPadding(new Insets(
                 Settings.panePadTop,
                 Settings.panePadRight,
@@ -56,7 +57,7 @@ public class AddModifyProductWindow extends GridPane {
                 Settings.panePadLeft
         ));
         
-        switch(this.windowType) {
+        switch(this.type) {
             case ADD:
                 this.windowLabel = "Add Product";
                 break;
@@ -119,7 +120,11 @@ public class AddModifyProductWindow extends GridPane {
         this.gridProductForm = new GridPane();
         
         //PRODUCT PART INITIALIZATION
-        this.tableProductPart = new ProductPartTable();
+        switch(this.type) {
+            case ADD:
+                this.tblProductPart = new ProductPartTable(ProductPartTable.Type.NEW);
+                break;
+        }
     }
     
     /**
@@ -154,7 +159,7 @@ public class AddModifyProductWindow extends GridPane {
         //RIGHT COLUMN BOX
         GridPane.setConstraints(this.boxRightCol, 1, 1);
         this.boxRightCol.getChildren().addAll(
-                this.tableProductPart
+                this.tblProductPart
         );
         
         this.getChildren().addAll(
