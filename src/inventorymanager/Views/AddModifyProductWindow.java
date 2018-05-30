@@ -1,6 +1,7 @@
 package inventorymanager.Views;
 
 import inventorymanager.Settings;
+import inventorymanager.Views.Partials.ProductPartTable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -39,6 +40,7 @@ public class AddModifyProductWindow extends GridPane {
             txtMin;
     private VBox boxLeftCol, boxRightCol;
     private GridPane gridProductForm;
+    private ProductPartTable tableProductPart;
     
     //DATA
     private Type windowType;
@@ -115,6 +117,9 @@ public class AddModifyProductWindow extends GridPane {
         this.txtMin.setPromptText("Min");
         
         this.gridProductForm = new GridPane();
+        
+        //PRODUCT PART INITIALIZATION
+        this.tableProductPart = new ProductPartTable();
     }
     
     /**
@@ -136,7 +141,6 @@ public class AddModifyProductWindow extends GridPane {
      */
     private void populatePane() {
         this.populateForm();
-        Label lbl2 = new Label("Column 2");
         
         GridPane.setConstraints(this.lblMain, 0, 0);
         GridPane.setColumnSpan(this.lblMain, 2);
@@ -150,7 +154,7 @@ public class AddModifyProductWindow extends GridPane {
         //RIGHT COLUMN BOX
         GridPane.setConstraints(this.boxRightCol, 1, 1);
         this.boxRightCol.getChildren().addAll(
-                lbl2
+                this.tableProductPart
         );
         
         this.getChildren().addAll(

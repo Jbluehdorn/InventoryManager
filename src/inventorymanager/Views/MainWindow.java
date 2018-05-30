@@ -22,8 +22,7 @@ public class MainWindow extends BorderPane {
     private Label lblTop;
     private HBox boxTop, boxBottom;
     private GridPane paneMiddle;
-    private DataTable partsTable;
-    private DataTable productsTable;
+    private DataTable partsTable, productsTable;
     private Button btnExit;
     
     public MainWindow() {
