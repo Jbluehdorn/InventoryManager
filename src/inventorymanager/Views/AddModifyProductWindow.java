@@ -2,19 +2,26 @@ package inventorymanager.Views;
 
 import inventorymanager.Settings;
 import inventorymanager.Views.Partials.ProductPartTable;
-import inventorymanager.Views.Partials.ProductPartTable.*;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 /**
  * WINDOW FOR MODIFYING AND ADDING PARTS
  */
-public class AddModifyProductWindow extends GridPane {
+public class AddModifyProductWindow extends BorderPane {
     //SETTINGS
     private final double formHGap = 5.0;
     private final double formVGap = 4.0;
@@ -40,8 +47,10 @@ public class AddModifyProductWindow extends GridPane {
             txtMax,
             txtMin;
     private VBox boxLeftCol, boxRightCol;
-    private GridPane gridProductForm;
+    private HBox boxBtns;
+    private GridPane gridProductForm, gridCenter;
     private ProductPartTable tblProductPart;
+    private Button btnSave, btnCancel;
     
     //DATA
     private Type type;
@@ -66,11 +75,10 @@ public class AddModifyProductWindow extends GridPane {
                 break;
         }
         
-        //Size columns correctly
-        this.createColumnConstraints();
         
         //Create Components
         this.initializeComponents();
+        this.createColumnConstraints();
         this.populatePane();
     }
     
@@ -86,6 +94,29 @@ public class AddModifyProductWindow extends GridPane {
                 Settings.font, 
                 Settings.headerTextSize
         ));
+        
+        this.gridCenter = new GridPane();
+        
+        this.btnSave = new Button("Save");
+        this.btnSave.setPadding(new Insets(
+                Settings.btnPadTop,
+                Settings.btnPadRight,
+                Settings.btnPadBot,
+                Settings.btnPadLeft
+        ));
+        Platform.runLater(()->this.btnSave.requestFocus()); //Prevents text field from gaining focus on startup
+        
+        this.btnCancel = new Button("Cancel");
+        this.btnCancel.setPadding(new Insets(
+                Settings.btnPadTop,
+                Settings.btnPadRight,
+                Settings.btnPadBot,
+                Settings.btnPadLeft
+        ));
+        this.btnCancel.setOnAction(e -> this.closeWindow());
+        
+        this.boxBtns = new HBox();
+        this.boxBtns.setSpacing(this.formHGap);
         
         //FORM INITIALIZATION
         this.lblID = new Label("ID");
@@ -138,35 +169,56 @@ public class AddModifyProductWindow extends GridPane {
         col1Cons.setPercentWidth(40);
         col2Cons.setPercentWidth(60);
         
-        this.getColumnConstraints().addAll(col1Cons, col2Cons);
+        this.gridCenter.getColumnConstraints().addAll(col1Cons, col2Cons);
     }
     
     /**
      * POPULATES THE WINDOW WITH ALL COMPONENTS
      */
     private void populatePane() {
+        this.populateTop();
+        this.populateCenter();
+        this.populateBottom();
+    }
+    
+    private void populateTop() {
+        this.setTop(this.lblMain);
+    }
+    
+    private void populateCenter() {
         this.populateForm();
-        
-        GridPane.setConstraints(this.lblMain, 0, 0);
-        GridPane.setColumnSpan(this.lblMain, 2);
-        
+               
         //LEFT COLUMN BOX
-        GridPane.setConstraints(this.boxLeftCol, 0, 1);
+        GridPane.setConstraints(this.boxLeftCol, 0, 0);
         this.boxLeftCol.getChildren().addAll(
                 this.gridProductForm
         );
         
         //RIGHT COLUMN BOX
-        GridPane.setConstraints(this.boxRightCol, 1, 1);
+        GridPane.setConstraints(this.boxRightCol, 1, 0);
         this.boxRightCol.getChildren().addAll(
                 this.tblProductPart
         );
         
-        this.getChildren().addAll(
-                this.lblMain,
+        this.gridCenter.getChildren().addAll(
                 this.boxLeftCol, 
                 this.boxRightCol
         );
+        
+        this.setCenter(this.gridCenter);
+    }
+    
+    private void populateBottom() {
+        Pane spacer = new Pane();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        
+        this.boxBtns.getChildren().addAll(
+                spacer,
+                this.btnSave,
+                this.btnCancel
+        );
+        
+        this.setBottom(this.boxBtns);
     }
     
     /**
@@ -240,5 +292,14 @@ public class AddModifyProductWindow extends GridPane {
                 this.lblMin,
                 this.txtMin
         );
+    }
+    
+    /**
+     * CLOSES THE CURRENT WINDOW
+     */
+    private void closeWindow() {
+        Stage window = (Stage)this.getScene().getWindow();
+        window.getScene().setRoot(new Region()); //Clears the root Node from being in two different scenes
+        window.close();
     }
 }
