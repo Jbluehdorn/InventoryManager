@@ -78,6 +78,11 @@ public class Product implements IInventoryItem {
             throw new IndexOutOfBoundsException("NO MATCHING PART FOUND");
         }
     }
+    
+    //Getter for parts
+    public Collection<Part> getAssociatedParts() {
+        return this.associatedParts;
+    }
 
     //Getter and Setter for name
     public void setName(String name) {

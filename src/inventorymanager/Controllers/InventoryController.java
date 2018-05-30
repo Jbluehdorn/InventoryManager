@@ -50,6 +50,12 @@ public class InventoryController {
         notifyObservers();
     }
     
+    public static Collection<Part> getProductParts(UUID prodID) {
+        Product prod = INVENTORY.lookupProduct(prodID);
+        
+        return prod.getAssociatedParts();
+    }
+    
     /**
      * PART CRUD
      */

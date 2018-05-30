@@ -131,21 +131,15 @@ public class DataTable extends BorderPane implements IObserver {
         
         this.table = new TableView();
         TableColumn colID = new TableColumn(this.typeLabel.substring(0, this.typeLabel.length() - 1) + " ID");
-        colID.setCellValueFactory(
-                new PropertyValueFactory<IInventoryItem, UUID>("ID")
-        );
         TableColumn colName = new TableColumn(this.typeLabel.substring(0, this.typeLabel.length() - 1) + " Name");
-        colName.setCellValueFactory(
-                new PropertyValueFactory<IInventoryItem, String>("name")
-        );
         TableColumn colInv = new TableColumn("Inventory Level");
-        colInv.setCellValueFactory(
-                new PropertyValueFactory<IInventoryItem, String>("inStock")
-        );
         TableColumn colPrice = new TableColumn("Price per Unit");
-        colPrice.setCellValueFactory(
-                new PropertyValueFactory<IInventoryItem, String>("price")
-        );
+        
+        colID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colInv.setCellValueFactory(new PropertyValueFactory<>("inStock"));
+        colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
         colPrice.setCellFactory(cell -> new TableCell<IInventoryItem, Double>() { 
             @Override
