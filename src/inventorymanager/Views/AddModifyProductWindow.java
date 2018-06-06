@@ -59,8 +59,15 @@ public class AddModifyProductWindow extends BorderPane {
     //DATA
     private Type type;
     private String windowLabel;
+    private Product prodModify;
     
     public AddModifyProductWindow(Type type) {
+        this(type, null);
+    }
+    
+    public AddModifyProductWindow(Type type, Product prod) {
+        this.prodModify = prod;
+        
         //Settings
         this.type = type;
         this.setPadding(new Insets(
@@ -84,6 +91,9 @@ public class AddModifyProductWindow extends BorderPane {
         this.initializeComponents();
         this.createColumnConstraints();
         this.populatePane();
+        
+        if(this.type == Type.MODIFY)
+            this.populateFields();
     }
     
     /**
@@ -160,6 +170,9 @@ public class AddModifyProductWindow extends BorderPane {
             case ADD:
                 this.tblProductPart = new ProductPartTable(ProductPartTable.Type.NEW);
                 break;
+            case MODIFY:
+                this.tblProductPart = new ProductPartTable(ProductPartTable.Type.MODIFY, this.prodModify.getID());
+                break;
         }
     }
     
@@ -175,6 +188,21 @@ public class AddModifyProductWindow extends BorderPane {
         col2Cons.setPercentWidth(60);
         
         this.gridCenter.getColumnConstraints().addAll(col1Cons, col2Cons);
+    }
+    
+    /**
+     * POPULATES ALL FIELDS
+     */
+    private void populateFields() {
+        if(this.type != Type.MODIFY)
+            return;
+        
+        this.txtID.setText(this.prodModify.getID().toString());
+        this.txtName.setText(this.prodModify.getName());
+        this.txtInv.setText(Integer.toString(this.prodModify.getInStock()));
+        this.txtPrice.setText(Double.toString(this.prodModify.getPrice()));
+        this.txtMin.setText(Integer.toString(this.prodModify.getMin()));
+        this.txtMax.setText(Integer.toString(this.prodModify.getMax()));
     }
     
     /**

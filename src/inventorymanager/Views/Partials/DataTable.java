@@ -267,6 +267,10 @@ public class DataTable extends BorderPane implements IObserver {
                 UUID partID = ((TableView<Part>)this.table).getSelectionModel().getSelectedItem().getID();
                 PartsController.showModForm(partID);
                 break;
+            case PRODUCTS:
+                UUID productID = ((TableView<Product>)this.table).getSelectionModel().getSelectedItem().getID();
+                ProductsController.showModForm(productID);
+                break;
         }
     }
     

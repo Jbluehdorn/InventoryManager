@@ -5,7 +5,7 @@ import java.util.*;
 import inventorymanager.Models.Parts.*;
 
 public class Product implements IInventoryItem {
-    private ArrayList<Part> associatedParts;
+    private ArrayList<Part> associatedParts = new ArrayList<>();
     private UUID productID;
     private String name;
     private double price;

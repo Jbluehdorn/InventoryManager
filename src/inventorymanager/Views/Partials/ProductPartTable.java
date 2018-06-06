@@ -2,6 +2,7 @@ package inventorymanager.Views.Partials;
 
 import inventorymanager.Controllers.InventoryController;
 import inventorymanager.Models.Parts.Part;
+import inventorymanager.Models.Product;
 import inventorymanager.Settings;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class ProductPartTable extends VBox {
     private double spacing = 5.0;
     public enum Type {
         NEW,
-        MOD
+        MODIFY
     }
     
     //COMPONENTS
@@ -40,6 +41,11 @@ public class ProductPartTable extends VBox {
     private FilteredList<Part> remainingParts;
     
     public ProductPartTable(Type type) {
+        this(type, null);
+    }
+    
+    public ProductPartTable(Type type, UUID productID) {
+        this.prodID = productID;
         this.type = type;
         
         //Settings
@@ -55,12 +61,6 @@ public class ProductPartTable extends VBox {
         //Initialization
         this.initializeComponents();
         this.populateTable();
-    }
-    
-    public ProductPartTable(Type type, UUID productID) {
-        this(type);
-        
-        this.prodID = productID;
     }
     
     /**
@@ -178,7 +178,7 @@ public class ProductPartTable extends VBox {
             case NEW:
                 this.productParts = FXCollections.observableArrayList(new ArrayList<>());
                 break;
-            case MOD:
+            case MODIFY:
                 this.productParts = FXCollections.observableArrayList((ArrayList<Part>) InventoryController.getProductParts(this.prodID));
                 break;
             default:
