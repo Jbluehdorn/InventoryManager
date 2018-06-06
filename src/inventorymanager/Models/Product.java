@@ -21,6 +21,12 @@ public class Product implements IInventoryItem {
         this.min = min;
         this.max = max;
     }
+    
+    public Product(String name, double price, int inStock, int min, int max, ArrayList<Part> parts) {
+        this(name, price, inStock, min, max);
+        
+        this.associatedParts = parts;
+    }
 
     /**
      * ADDS PART TO ARRAYLIST

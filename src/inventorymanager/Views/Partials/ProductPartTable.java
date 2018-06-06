@@ -6,6 +6,7 @@ import inventorymanager.Settings;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -220,5 +221,12 @@ public class ProductPartTable extends VBox {
         
         this.productParts.remove(part);
         ((ObservableList<Part>)this.remainingParts.getSource()).add(part);
+    }
+    
+    /**
+     * GET THE PARTS ARRAYLIST
+     */
+    public Iterable<Part> getParts() {
+        return this.productParts.stream().collect(Collectors.toList());
     }
 }

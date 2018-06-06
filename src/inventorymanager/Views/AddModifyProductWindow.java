@@ -1,7 +1,11 @@
 package inventorymanager.Views;
 
+import inventorymanager.Controllers.InventoryController;
+import inventorymanager.Models.Parts.Part;
+import inventorymanager.Models.Product;
 import inventorymanager.Settings;
 import inventorymanager.Views.Partials.ProductPartTable;
+import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -104,6 +108,7 @@ public class AddModifyProductWindow extends BorderPane {
                 Settings.btnPadBot,
                 Settings.btnPadLeft
         ));
+        this.btnSave.setOnAction(e -> this.save());
         Platform.runLater(()->this.btnSave.requestFocus()); //Prevents text field from gaining focus on startup
         
         this.btnCancel = new Button("Cancel");
@@ -301,5 +306,34 @@ public class AddModifyProductWindow extends BorderPane {
         Stage window = (Stage)this.getScene().getWindow();
         window.getScene().setRoot(new Region()); //Clears the root Node from being in two different scenes
         window.close();
+    }
+    
+    /**
+     * SAVES THE PRODUCT AND CLOSES THE WINDOW
+     */
+    public void save() {
+        switch(this.type) {
+            case ADD:
+                this.saveNew();
+                break;
+        }
+        
+        this.closeWindow();
+    }
+    
+    /**
+     * SAVES A NEW PRODUCT
+     */
+    public void saveNew() {
+        Product prod = new Product(
+                this.txtName.getText(),
+                Double.parseDouble(this.txtPrice.getText()),
+                Integer.parseInt(this.txtInv.getText()),
+                Integer.parseInt(this.txtMin.getText()),
+                Integer.parseInt(this.txtMax.getText()),
+                (ArrayList<Part>)this.tblProductPart.getParts()
+        );
+        
+        InventoryController.addProduct(prod);
     }
 }
