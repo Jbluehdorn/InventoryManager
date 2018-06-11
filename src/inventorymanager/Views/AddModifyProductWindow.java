@@ -344,6 +344,9 @@ public class AddModifyProductWindow extends BorderPane {
             case ADD:
                 this.saveNew();
                 break;
+            case MODIFY:
+                this.saveExisting();
+                break;
         }
         
         this.closeWindow();
@@ -363,5 +366,23 @@ public class AddModifyProductWindow extends BorderPane {
         );
         
         InventoryController.addProduct(prod);
+    }
+    
+    /**
+     * SAVES AN EXISTING PRODUCT
+     */
+    public void saveExisting() {
+        Product prod = new Product(
+                this.txtName.getText(),
+                Double.parseDouble(this.txtPrice.getText()),
+                Integer.parseInt(this.txtInv.getText()),
+                Integer.parseInt(this.txtMin.getText()),
+                Integer.parseInt(this.txtMax.getText()),
+                (ArrayList<Part>)this.tblProductPart.getParts()
+        );
+        
+        prod.setID(this.prodModify.getID());
+        
+        InventoryController.updateProduct(prod);
     }
 }
