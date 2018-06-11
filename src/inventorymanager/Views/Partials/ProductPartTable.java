@@ -170,6 +170,7 @@ public class ProductPartTable extends VBox {
     private void loadRemainingParts() {
         ObservableList<Part> allParts = FXCollections.observableArrayList((ArrayList<Part>) InventoryController.getParts());
         this.remainingParts = new FilteredList<>(allParts, p -> true);
+        
         this.tblRemainingParts.setItems(this.remainingParts);
     }
     
@@ -180,6 +181,9 @@ public class ProductPartTable extends VBox {
                 break;
             case MODIFY:
                 this.productParts = FXCollections.observableArrayList((ArrayList<Part>) InventoryController.getProductParts(this.prodID));
+                
+                this.removeExistingParts();
+                
                 break;
             default:
                 this.productParts = FXCollections.observableArrayList(new ArrayList<>());
@@ -187,6 +191,19 @@ public class ProductPartTable extends VBox {
         
         this.tblProductParts.setItems(this.productParts);
         
+    }
+    
+    /**
+     * REMOVES PARTS FROM REMAININGPARTS IF THEY EXIST IN THE PRODUCTPARTS
+     */
+    private void removeExistingParts() {
+        this.productParts.forEach((productPart) -> {
+           this.remainingParts.forEach((remainingPart) -> {
+                if(remainingPart.getID() == productPart.getID()) {
+                    this.remainingParts.getSource().remove(remainingPart);
+                }
+            });
+        });
     }
     
     /**
@@ -229,4 +246,20 @@ public class ProductPartTable extends VBox {
     public Iterable<Part> getParts() {
         return this.productParts.stream().collect(Collectors.toList());
     }
+    
+   private void printEverything() {
+       String lineBreak = "------------------------";
+       
+       System.out.println("Remaining Parts");
+       for(Part part : this.remainingParts) {
+           System.out.println(part.getName());
+       }
+       System.out.println(lineBreak);
+       
+       System.out.println("Product Parts");
+       for(Part part : this.productParts) {
+           System.out.println(part.getName());
+       }
+       System.out.println(lineBreak);
+   }
 }

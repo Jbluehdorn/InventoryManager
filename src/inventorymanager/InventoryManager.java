@@ -53,6 +53,8 @@ public class InventoryManager extends Application {
         products.add(new Product("Plane", 750000.00, 5, 1, 5));
         products.add(new Product("Train", 1250000.00, 3, 1, 10));
         
+        products.get(0).addAssociatedPart(parts.get(0));
+        
         for(Product prod : products) {
             InventoryController.addProduct(prod);
         }

@@ -3,11 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/Jordan/wgu_projects/C482/InventoryManager/src/inventorymanager/Controllers/InventoryController.java</file>
             <file>file:/Users/Jordan/wgu_projects/C482/InventoryManager/src/inventorymanager/Views/Partials/ProductPartTable.java</file>
+            <file>file:/Users/Jordan/wgu_projects/C482/InventoryManager/src/inventorymanager/Controllers/PartsController.java</file>
             <file>file:/Users/Jordan/wgu_projects/C482/InventoryManager/src/inventorymanager/Views/Partials/DataTable.java</file>
-            <file>file:/Users/Jordan/wgu_projects/C482/InventoryManager/src/inventorymanager/Views/MainWindow.java</file>
             <file>file:/Users/Jordan/wgu_projects/C482/InventoryManager/src/inventorymanager/Views/AddModifyProductWindow.java</file>
+            <file>file:/Users/Jordan/wgu_projects/C482/InventoryManager/src/inventorymanager/Controllers/ProductsController.java</file>
             <file>file:/Users/Jordan/wgu_projects/C482/InventoryManager/src/inventorymanager/Views/AddModifyPartWindow.java</file>
+            <file>file:/Users/Jordan/wgu_projects/C482/InventoryManager/src/inventorymanager/Models/Inventory.java</file>
         </group>
     </open-files>
 </project-private>
