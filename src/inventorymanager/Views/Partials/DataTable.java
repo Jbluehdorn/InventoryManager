@@ -283,6 +283,9 @@ public class DataTable extends BorderPane implements IObserver {
                 UUID partID = ((TableView<Part>)this.table).getSelectionModel().getSelectedItem().getID();
                 PartsController.showDeleteForm(partID);
                 break;
+            case PRODUCTS:
+                UUID prodID = ((TableView<Product>)this.table).getSelectionModel().getSelectedItem().getID();
+                ProductsController.showDeleteForm(prodID);
         }
     }
 

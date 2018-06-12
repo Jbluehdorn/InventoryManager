@@ -4,8 +4,12 @@ import inventorymanager.Models.Product;
 import inventorymanager.Settings;
 import inventorymanager.Views.AddModifyProductWindow;
 import inventorymanager.Views.AddModifyProductWindow.*;
+import java.util.Optional;
 import java.util.UUID;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -40,5 +44,24 @@ public class ProductsController {
         stage.setTitle("Modify Product");
         stage.setScene(new Scene(modProductPane, Settings.windowWidth * 1.5, Settings.windowHeight));
         stage.show();
+    }
+    
+    public static void showDeleteForm(UUID prodID) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        
+        Product prod = InventoryController.getProduct(prodID);
+        
+        //Create alert
+        alert.setTitle("Delete");
+        alert.setHeaderText("Confirm Delete");
+        alert.setContentText("Really delete " + prod.getName()  + "?");
+        
+        //Get the result
+        Optional<ButtonType> result = alert.showAndWait();
+        
+        //Delete if confirmed
+        if(result.get() == ButtonType.OK) {
+            InventoryController.removeProduct(prodID);
+        }
     }
 }
