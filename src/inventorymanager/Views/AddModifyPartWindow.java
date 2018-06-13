@@ -7,9 +7,13 @@ import inventorymanager.Models.Parts.Part;
 import inventorymanager.Settings;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -182,7 +186,7 @@ public class AddModifyPartWindow extends VBox {
                 Settings.btnPadRight, 
                 Settings.btnPadBot, 
                 Settings.btnPadLeft));
-        this.btnCancel.setOnAction(e -> this.closeWindow());
+        this.btnCancel.setOnAction(e -> this.confirmCancel());
         
         //Initialize rows
         this.addRadioRow(this.rbInhouse, this.rbOutsourced);
@@ -318,6 +322,26 @@ public class AddModifyPartWindow extends VBox {
         Stage window = (Stage)this.getScene().getWindow();
         window.getScene().setRoot(new Region()); //Clears the root Node from being in two different scenes
         window.close();
+    }
+    
+    /**
+     * CONFIRMS CANCEL BEFORE CLOSING
+     */
+    public void confirmCancel() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        
+        //Create alert
+        alert.setTitle("Cancel");
+        alert.setHeaderText("Confirm Cancel");
+        alert.setContentText("Are you sure you want to cancel without saving?");
+        
+        //Get the result
+        Optional<ButtonType> result = alert.showAndWait();
+        
+        //Close if confirmed
+        if(result.get() == ButtonType.OK) {
+            this.closeWindow();
+        }
     }
     
     /**
