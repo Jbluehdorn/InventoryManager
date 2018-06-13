@@ -10,6 +10,7 @@ import java.util.Optional;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -343,7 +344,7 @@ public class AddModifyProductWindow extends BorderPane {
      * CONFIRMS CANCEL BEFORE CLOSING
      */
     public void confirmCancel() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(AlertType.CONFIRMATION);
         
         //Create alert
         alert.setTitle("Cancel");
@@ -363,6 +364,19 @@ public class AddModifyProductWindow extends BorderPane {
      * SAVES THE PRODUCT AND CLOSES THE WINDOW
      */
     public void save() {
+        if(((ArrayList<Part>)this.tblProductPart.getParts()).size() <= 0) {
+            Alert alert = new Alert(AlertType.ERROR);
+            
+            //Create alert
+            alert.setTitle("Error");
+            alert.setHeaderText("Minimum Part Count not met");
+            alert.setContentText("Product must have at least one assosciated part");
+            
+            alert.show();
+            
+            return;
+        }
+        
         switch(this.type) {
             case ADD:
                 this.saveNew();
